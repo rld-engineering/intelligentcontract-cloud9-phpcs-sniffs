@@ -15,11 +15,11 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
     {
         $tokens = $phpcsFile->getTokens();
         
-        $firstTokenInStatementIndex = $this->_getFirstTokenInStatementIndex($phpcsFile, $stackPtr);
+        $firstTokenInStatementIndex = $this->getFirstTokenInStatementIndex($phpcsFile, $stackPtr);
         $thisTokenIsTheStartOfAStatement = $firstTokenInStatementIndex == $stackPtr;
         
         if ($thisTokenIsTheStartOfAStatement) {
-            $scopeStartIndex = $this->_findScopeStartIndex($phpcsFile, $stackPtr);
+            $scopeStartIndex = $this->findScopeStartIndex($phpcsFile, $stackPtr);
             
             if ($scopeStartIndex !== false) {
                 $scopeStartToken = $tokens[$scopeStartIndex];
@@ -44,7 +44,7 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
      * @param int $stackPtr
      * @return int
      */
-    private function _findScopeStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function findScopeStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $previousPossibleStartIndex = $stackPtr;
         $scopeStartIndex = false;
@@ -130,7 +130,7 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
      * @param int $stackPtr
      * @return int
      */
-    private function _getFirstTokenInStatementIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getFirstTokenInStatementIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $previousPossibleStartIndex = $stackPtr;
         $tokens = $phpcsFile->getTokens();
@@ -174,7 +174,7 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
                              * the token we're checking the indent on is actually a chained method call
                              * of a parameter
                              */
-                            $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                            $firstLineTokenIndex = $this->findNextStatementStartIndex(
                                 $phpcsFile,
                                 $previousPossibleStartIndex + 1);
                         } else {
@@ -191,7 +191,7 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
                         /**
                          * this is the closing curly brace of a control structure
                          */
-                        $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
@@ -203,7 +203,7 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
                          * open curly bracket found - this must be the beginning of the method our token's statement
                          * is in
                          */
-                        $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
@@ -216,7 +216,7 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
                     }
                 } else {
                     if (!$parenCount && !$curlyParenCount) {
-                        $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
@@ -248,7 +248,7 @@ class HappyCustomer_Sniffs_Whitespace_ScopeIndentSniff implements PHP_CodeSniffe
      * @param int $stackPtr
      * @return array
      */
-    private function _findNextStatementStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function findNextStatementStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         return $phpcsFile->findNext(
             array(

@@ -24,7 +24,7 @@ class HappyCustomer_Sniffs_Whitespace_SuperfluousNewlinesSniff
             $nextNonWhitespaceIndex = $phpcsFile->findPrevious(array(T_WHITESPACE), $stackPtr - 1, null, true);
         }
         
-        if ($this->_tokenIndexIsInsideFunction($phpcsFile, $nextNonWhitespaceIndex)) {
+        if ($this->tokenIndexIsInsideFunction($phpcsFile, $nextNonWhitespaceIndex)) {
             $nextNonWhitespaceToken = $tokens[$nextNonWhitespaceIndex];
             
             if (abs($nextNonWhitespaceToken['line'] - $currentToken['line']) > 1) {
@@ -36,7 +36,7 @@ class HappyCustomer_Sniffs_Whitespace_SuperfluousNewlinesSniff
         }
     }
     
-    private function _tokenIndexIsInsideFunction(PHP_CodeSniffer_File $phpcsFile, $index)
+    private function tokenIndexIsInsideFunction(PHP_CodeSniffer_File $phpcsFile, $index)
     {
         if (!$index) {
             return false;

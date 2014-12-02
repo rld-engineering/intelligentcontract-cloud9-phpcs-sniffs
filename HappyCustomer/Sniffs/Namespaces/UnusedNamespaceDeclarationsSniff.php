@@ -13,7 +13,7 @@ class HappyCustomer_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
     {
         $tokens = $phpcsFile->getTokens();
         
-        if ($this->_isUseDeclaration($phpcsFile, $stackPtr)) {
+        if ($this->isUseDeclaration($phpcsFile, $stackPtr)) {
             $endOfDeclarationIndex = $phpcsFile->findNext(array(T_COMMA, T_SEMICOLON), $stackPtr + 1);
             
             $endOfUseDeclarationReached = false;
@@ -101,7 +101,7 @@ class HappyCustomer_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
      * @param int $stackPtr
      * @return bool
      */
-    private function _isUseDeclaration(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function isUseDeclaration(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 

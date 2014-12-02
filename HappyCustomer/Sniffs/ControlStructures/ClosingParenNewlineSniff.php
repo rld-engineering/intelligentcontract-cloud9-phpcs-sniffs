@@ -18,7 +18,7 @@ class HappyCustomer_Sniffs_ControlStructures_ClosingParenNewlineSniff implements
     {
         $tokens = $phpcsFile->getTokens();
         
-        $closingParenIndex = $this->_getClosingParenIndex($phpcsFile, $stackPtr);
+        $closingParenIndex = $this->getClosingParenIndex($phpcsFile, $stackPtr);
         
         if ($closingParenIndex) {
             $thisToken = $tokens[$stackPtr];
@@ -43,7 +43,7 @@ class HappyCustomer_Sniffs_ControlStructures_ClosingParenNewlineSniff implements
         }
     }
     
-    private function _getClosingParenIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getClosingParenIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         $searchTokens = array(

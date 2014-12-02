@@ -20,7 +20,7 @@ class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
      * @param int $stackPtr
      * @return bool
      */
-    private function _isThisLastTokenOnLine(array $tokens, $stackPtr)
+    private function isThisLastTokenOnLine(array $tokens, $stackPtr)
     {
         $currentLineNumber = $tokens[$stackPtr]['line'];
         
@@ -32,7 +32,7 @@ class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
     {
         $tokens = $phpcsFile->getTokens();
         
-        if ($this->_isThisLastTokenOnLine($tokens, $stackPtr)) {
+        if ($this->isThisLastTokenOnLine($tokens, $stackPtr)) {
             $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null, true);
             $currentLineNumber = $tokens[$stackPtr]['line'];
             

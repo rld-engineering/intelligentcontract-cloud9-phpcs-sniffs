@@ -28,7 +28,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
         $thisIsContinuationOfMultiLineString = $thisTokenIsString && $previousTokenIsString;
         
         if ($thisIsFirstTokenOnLine && !$thisIsContinuationOfMultiLineString) {
-            $statementBeginningIndex = $this->_getFirstTokenInStatementIndex($phpcsFile, $stackPtr);
+            $statementBeginningIndex = $this->getFirstTokenInStatementIndex($phpcsFile, $stackPtr);
             
             if ($statementBeginningIndex && $statementBeginningIndex != $firstTokenOnLineIndex) {
                 $statementBeginningToken = $tokens[$statementBeginningIndex];
@@ -53,7 +53,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
      * @param int $stackPtr
      * @return int
      */
-    private function _getFirstTokenInStatementIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getFirstTokenInStatementIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $previousPossibleStartIndex = $stackPtr;
         $tokens = $phpcsFile->getTokens();
@@ -97,7 +97,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                              * the token we're checking the indent on is actually a chained method call
                              * of a parameter
                              */
-                            $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                            $firstLineTokenIndex = $this->findNextStatementStartIndex(
                                 $phpcsFile,
                                 $previousPossibleStartIndex + 1);
                         } else {
@@ -116,7 +116,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         /**
                          * this is the closing curly brace of a control structure
                          */
-                        $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
@@ -128,7 +128,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                          * open curly bracket found - this must be the beginning of the method our token's statement
                          * is in
                          */
-                        $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
@@ -141,7 +141,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     }
                 } else {
                     if (!$parenCount && !$curlyParenCount) {
-                        $firstLineTokenIndex = $this->_findNextStatementStartIndex(
+                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
@@ -173,7 +173,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
      * @param int $stackPtr
      * @return array
      */
-    private function _findNextStatementStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function findNextStatementStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         return $phpcsFile->findNext(
             array(
