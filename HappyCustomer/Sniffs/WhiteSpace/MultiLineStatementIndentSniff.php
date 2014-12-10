@@ -61,6 +61,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
         $curlyParenCount = 0;
         $firstLineTokenIndex = false;
         $lastTokenFoundWasComma = false;
+        $lastTokenFoundWasCloseParenthesis = false;
         $commaEncountered = false;
         $objectOperatorEncountered = false;
         
@@ -84,6 +85,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                 
                 if ($previousPossibleCode == T_CLOSE_PARENTHESIS) {
                     $parenCount++;
+                    $lastTokenFoundWasCloseParenthesis = true;
                 } elseif ($previousPossibleCode == T_OPEN_PARENTHESIS) {
                     if ($parenCount) {
                         $parenCount--;
@@ -105,7 +107,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         }
                     }
                 } elseif ($previousPossibleCode == T_CLOSE_CURLY_BRACKET) {
-                    if ($lastTokenFoundWasComma) {
+                    if ($lastTokenFoundWasComma || $lastTokenFoundWasCloseParenthesis) {
                         /**
                          * this is the closing curly brace of a closure param in a method call
                          */
@@ -150,6 +152,9 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                 if ($previousPossibleCode != T_COMMA) {
                     $lastTokenFoundWasComma = false;
                 }
+                if ($previousPossibleCode != T_CLOSE_PARENTHESIS) {
+                    $lastTokenFoundWasCloseParenthesis = false;
+                }
             }
         }
 
@@ -159,12 +164,10 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
              */
             $statementFirstTokenIndex = $phpcsFile->findFirstOnLine(array(T_WHITESPACE), $firstLineTokenIndex, true);
 
-            $return = $statementFirstTokenIndex;
-        } else {
-            $return = false;
+            return $statementFirstTokenIndex;
         }
         
-        return $return;
+        return false;
     }
     
     /**
