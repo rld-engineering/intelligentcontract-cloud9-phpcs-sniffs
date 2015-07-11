@@ -58,9 +58,9 @@ class HappyCustomer_Sniffs_Strings_ConcatenationSpacingSniff
         
         $concatToken = $tokens[$stackPtr];
         $nextButOneToken = $tokens[$stackPtr + ($beforeOrAfterMultiplier * 2)];
-        $adjacentWhitespaceToken = $tokens[$stackPtr - ($beforeOrAfterMultiplier * 1)];
+        $adjacentWhitespaceToken = $tokens[$stackPtr + ($beforeOrAfterMultiplier * 1)];
         
-        $nextButOneTokenIsOnSameLine = $nextButOneToken['line'] = $concatToken['line'];
+        $nextButOneTokenIsOnSameLine = $nextButOneToken['line'] == $concatToken['line'];
         $whitespaceIsMoreThanOneCharacter = $adjacentWhitespaceToken['length'] > 1;
         
         return $nextButOneTokenIsOnSameLine && $whitespaceIsMoreThanOneCharacter;
