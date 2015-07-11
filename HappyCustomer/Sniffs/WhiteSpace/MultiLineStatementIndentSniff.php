@@ -182,7 +182,13 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
             array(
                 T_WHITESPACE,
                 T_COMMENT,
-                T_DOC_COMMENT
+                T_DOC_COMMENT,
+                T_DOC_COMMENT_STAR,
+                T_DOC_COMMENT_WHITESPACE,
+                T_DOC_COMMENT_TAG,
+                T_DOC_COMMENT_OPEN_TAG,
+                T_DOC_COMMENT_CLOSE_TAG,
+                T_DOC_COMMENT_STRING
             ),
             $stackPtr,
             null,
