@@ -1,6 +1,6 @@
 <?php
 
-class HappyCustomer_Sniffs_Whitespace_ArrayIndentSniff
+class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
     implements PHP_CodeSniffer_Sniff
 {
     
