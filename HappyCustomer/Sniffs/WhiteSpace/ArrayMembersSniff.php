@@ -32,6 +32,24 @@ class HappyCustomer_Sniffs_Whitespace_ArrayIndentSniff
         }
         
         if ($arrayDeclarationClose['line'] == $arrayDeclarationOpen['line']) {
+            /**
+             * array declaration is on one line
+             */
+            $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
+                array(T_WHITESPACE),
+                $arrayDeclarationCloseIndex,
+                true);
+            
+            $nextArrayMemberIndex = $phpcsFile->findNext(
+                array(T_WHITESPACE),
+                $nextNonWhitespaceTokenIndex + 1,
+                null,
+                true);
+            
+            while ($nextArrayMemberIndex) {
+                $nextArrayMemberIndex = $this->getNextArrayMemberIndex($phpcsFile, $nextArrayMemberIndex + 1);
+            }
+            
             return;
         }
         
@@ -93,7 +111,20 @@ class HappyCustomer_Sniffs_Whitespace_ArrayIndentSniff
             $token = $tokens[$nextCommaOrParenthesisIndex];
 
             if ($token['code'] == T_COMMA && !$parenCount) {
-                return $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
+                /**
+                 * check there's some whitespace after this token
+                 */
+                $tokenFollowingComma = $tokens[$nextCommaOrParenthesisIndex + 1];
+                if ($tokenFollowingComma['code'] != T_WHITESPACE) {
+                    $phpcsFile->addError(
+                        "Array members must be separated by a single space or a line-break",
+                        $nextCommaOrParenthesisIndex,
+                        'ArrayIndent');
+                    return null;
+                }
+                
+                $return = $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
+                return $return;
             }
 
             if ($token['code'] == T_OPEN_PARENTHESIS) {
