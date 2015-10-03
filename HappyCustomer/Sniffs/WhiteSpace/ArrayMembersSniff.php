@@ -172,7 +172,8 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         while ($nextCommaOrParenthesisIndex) {
             $token = $tokens[$nextCommaOrParenthesisIndex];
 
-            if ($token['code'] == T_COMMA && !$parenCount) {
+            $thisIsACommaAndWeAreNotInANestedStructure = $token['code'] == T_COMMA && !$parenCount;
+            if ($thisIsACommaAndWeAreNotInANestedStructure) {
                 return $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
             }
 
