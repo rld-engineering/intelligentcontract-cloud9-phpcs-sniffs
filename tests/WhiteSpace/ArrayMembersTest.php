@@ -61,6 +61,7 @@ class WhiteSpace_ArrayMembersTest extends PHPUnit_Framework_TestCase
     {
         return [
             'empty method' => [__DIR__ . '/_files/ArrayMembers/empty-method.php', []],
+            'single line array declaration' => [__DIR__ . '/_files/ArrayMembers/single-line-array.php', []],
             'empty array declaration' => [__DIR__ . '/_files/ArrayMembers/empty-array-declaration.php', []],
             'multi line array declaration' => [__DIR__ . '/_files/ArrayMembers/multi-line-array.php', []],
             'nested array' => [__DIR__ . '/_files/ArrayMembers/nested-array.php', []],
