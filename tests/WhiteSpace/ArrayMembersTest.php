@@ -1,60 +1,14 @@
 <?php
 
-require_once '/usr/local/lib/php-libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/../TestCase.php';
 require_once __DIR__ . '/../../HappyCustomer/Sniffs/WhiteSpace/ArrayMembersSniff.php';
 
-class WhiteSpace_ArrayMembersTest extends PHPUnit_Framework_TestCase
+class WhiteSpace_ArrayMembersTest extends TestCase
 {
     
-    /**
-     * 
-     * @param array $errors
-     * @return array
-     */
-    private function getTransformedErrors(array $errors)
+    public function setUp()
     {
-        $return = array();
-        
-        foreach ($errors as $line => $lineErrors) {
-            foreach ($lineErrors as $col => $colErrors) {
-                foreach ($colErrors as $error) {
-                    $return[] = array(
-                        $line,
-                        $col,
-                        $error['message']
-                    );
-                }
-            }
-        }
-        
-        return $return;
-    }
-    
-    /**
-     * @dataProvider sniffProvider
-     */
-    public function testSniff($fileName, $expectedErrors)
-    {
-        $phpcs = new PHP_CodeSniffer();
-        $phpcs->initStandard(
-            __DIR__ . '/../../HappyCustomer/ruleset.xml',
-            array('HappyCustomer.WhiteSpace.ArrayMembers'));
-
-        $phpcs->cli
-            ->setCommandLineValues(
-                array(
-                    '-s'
-                ));
-        $file = $phpcs->processFile($fileName);
-        $errors = $file->getErrors();
-        
-        if (!$expectedErrors) {
-            $this->assertEquals(0, $file->getErrorCount());
-            return;
-        }
-        
-        $transformedErrors = $this->getTransformedErrors($errors);
-        $this->assertEquals($expectedErrors, $transformedErrors);
+        $this->sniffName = 'HappyCustomer.WhiteSpace.ArrayMembers';
     }
     
     public function sniffProvider()
