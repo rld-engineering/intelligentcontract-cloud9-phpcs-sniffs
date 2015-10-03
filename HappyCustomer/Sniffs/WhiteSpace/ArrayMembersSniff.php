@@ -27,14 +27,15 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         }
         
         $arrayDeclarationCloseIndex = $this->getArrayDeclarationCloseIndex($phpcsFile, $nextNonWhitespaceTokenIndex);
-        $arrayDeclarationClose = $tokens[$arrayDeclarationCloseIndex];
         
-        if (!$arrayDeclarationClose) {
+        if (!$arrayDeclarationCloseIndex) {
             return;
         }
         
-        $IsArrayDeclarationOnOneLine = $arrayDeclarationClose['line'] == $arrayDeclarationOpen['line'];
-        if ($IsArrayDeclarationOnOneLine) {
+        $arrayDeclarationClose = $tokens[$arrayDeclarationCloseIndex];
+        
+        $isArrayDeclarationOnOneLine = $arrayDeclarationClose['line'] == $arrayDeclarationOpen['line'];
+        if ($isArrayDeclarationOnOneLine) {
             $nextArrayMemberIndex = $phpcsFile->findNext(
                 array(T_WHITESPACE),
                 $nextNonWhitespaceTokenIndex + 1,
@@ -48,14 +49,12 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             return;
         }
         
-        /**
-         * array declaration is over more than one line
-         */
         $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
             array(T_WHITESPACE),
             $arrayDeclarationCloseIndex,
             true);
-        if ($firstTokenOnLastLineIndex != $arrayDeclarationCloseIndex) {
+        $isClosingParenOnItsOwnLine = $firstTokenOnLastLineIndex == $arrayDeclarationCloseIndex;
+        if (!$isClosingParenOnItsOwnLine) {
             $phpcsFile->addError(
                 'Closing parenthesis of multi-line array declaration must be on its own line',
                 $arrayDeclarationCloseIndex,
