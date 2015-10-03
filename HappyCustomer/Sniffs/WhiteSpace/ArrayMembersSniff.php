@@ -159,12 +159,14 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
      */
     private function getNextArrayMemberIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        $tokensToScanFor = array(
+            T_OPEN_PARENTHESIS,
+            T_CLOSE_PARENTHESIS,
+            T_COMMA
+        );
+        
         $nextCommaOrParenthesisIndex = $phpcsFile->findNext(
-            array(
-                T_OPEN_PARENTHESIS,
-                T_CLOSE_PARENTHESIS,
-                T_COMMA
-            ),
+            $tokensToScanFor,
             $stackPtr);
         $tokens = $phpcsFile->getTokens();
         $parenCount = 0;
@@ -194,11 +196,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             }
             
             $nextCommaOrParenthesisIndex = $phpcsFile->findNext(
-                array(
-                    T_OPEN_PARENTHESIS,
-                    T_CLOSE_PARENTHESIS,
-                    T_COMMA
-                ),
+                $tokensToScanFor,
                 $nextCommaOrParenthesisIndex + 1);
         }
         
