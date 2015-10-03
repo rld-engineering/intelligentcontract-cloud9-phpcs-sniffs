@@ -221,11 +221,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
                 return $nextParenTokenIndex;
             }
             
-            if ($nextParenToken['code'] == T_OPEN_PARENTHESIS) {
-                $openParenCount++;
-            } else {
-                $openParenCount--;
-            }
+            $openParenCount += $nextParenToken['code'] == T_OPEN_PARENTHESIS ? 1 : -1;
             
             $nextParenTokenIndex = $phpcsFile->findNext(
                 array(T_CLOSE_PARENTHESIS, T_OPEN_PARENTHESIS),
