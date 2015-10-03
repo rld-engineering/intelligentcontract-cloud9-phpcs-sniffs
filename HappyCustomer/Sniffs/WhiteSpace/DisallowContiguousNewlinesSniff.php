@@ -20,7 +20,7 @@ class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
      * @param int $stackPtr
      * @return bool
      */
-    private function isThisLastTokenOnLine(array $tokens, $stackPtr)
+    private function isThisTheLastTokenOnLine(array $tokens, $stackPtr)
     {
         $currentLineNumber = $tokens[$stackPtr]['line'];
         
@@ -32,32 +32,32 @@ class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
     {
         $tokens = $phpcsFile->getTokens();
         
-        if ($this->isThisLastTokenOnLine($tokens, $stackPtr)) {
-            $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null, true);
-            $currentLineNumber = $tokens[$stackPtr]['line'];
-            
-            $error = false;
-            
-            if ($prevNonWhitespaceTokenIndex !== false) {
-                /**
-                 * we must have at least 2 contiguous newlines if prev non whitespace token
-                 * is more than 2 lines back
-                 */
-                $prevNonWhitespaceToken = $tokens[$prevNonWhitespaceTokenIndex];
-                
-                if ($currentLineNumber - $prevNonWhitespaceToken['line'] > 1) {
-                    $error = true;
-                }
-            } elseif ($currentLineNumber > $tokens[0]['line']) {
-                /**
-                 * no previous token and this isn't the first line
-                 */
-                $error = true;
-            }
-            
-            if ($error) {
+        if (!$this->isThisTheLastTokenOnLine($tokens, $stackPtr)) {
+            return;
+        }
+        
+        $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null, true);
+        $currentLineNumber = $tokens[$stackPtr]['line'];
+
+        if ($prevNonWhitespaceTokenIndex !== false) {
+            /**
+             * we must have at least 2 contiguous newlines if prev non whitespace token
+             * is more than 2 lines back
+             */
+            $prevNonWhitespaceToken = $tokens[$prevNonWhitespaceTokenIndex];
+
+            if ($currentLineNumber - $prevNonWhitespaceToken['line'] > 1) {
                 $phpcsFile->addError("Contiguous blank lines found", $stackPtr, 'ContiguousNewlines');
             }
+            
+            return;
+        } 
+        
+        if ($currentLineNumber > $tokens[0]['line']) {
+            /**
+             * no previous token and this isn't the first line
+             */
+            $phpcsFile->addError("Contiguous blank lines found", $stackPtr, 'ContiguousNewlines');
         }
     }
     
