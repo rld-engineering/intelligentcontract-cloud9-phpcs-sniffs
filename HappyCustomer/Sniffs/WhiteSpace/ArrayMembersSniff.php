@@ -107,6 +107,12 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         $this->checkMultiLineArrayIndents($phpcsFile, $stackPtr);
     }
     
+    /**
+     * 
+     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param int $arrayDeclarationLineStartIndex
+     * @return void
+     */
     private function checkMultiLineArrayIndents(
         PHP_CodeSniffer_File $phpcsFile,
         $arrayDeclarationLineStartIndex
