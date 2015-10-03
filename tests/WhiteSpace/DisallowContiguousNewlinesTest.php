@@ -30,6 +30,12 @@ class WhiteSpace_DisallowContiguousNewlinesTest extends TestCase
                 [
                     [10, 1, 'Contiguous blank lines found']
                 ]
+            ],
+            'empty lines at start' => [
+                __DIR__ . '/_files/DisallowContiguousNewlines/empty-lines-start.php',
+                [
+                    [3, 1, 'Contiguous blank lines found']
+                ]
             ]
         ];
     }
