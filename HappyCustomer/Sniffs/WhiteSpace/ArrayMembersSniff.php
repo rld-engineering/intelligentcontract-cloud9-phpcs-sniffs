@@ -45,6 +45,30 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         }
     }
     
+    /**
+     * 
+     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param int $arrayDeclarationCloseIndex
+     * @return bool
+     */
+    private function checkClosingParenIsOnItsOwnLine(PHP_CodeSniffer_File $phpcsFile, $arrayDeclarationCloseIndex)
+    {
+        $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
+            array(T_WHITESPACE),
+            $arrayDeclarationCloseIndex,
+            true);
+        $isClosingParenOnItsOwnLine = $firstTokenOnLastLineIndex == $arrayDeclarationCloseIndex;
+        if (!$isClosingParenOnItsOwnLine) {
+            $phpcsFile->addError(
+                'Closing parenthesis of multi-line array declaration must be on its own line',
+                $arrayDeclarationCloseIndex,
+                'ArrayIndent');
+            return false;
+        }
+        
+        return true;
+    }
+    
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $firstMemberTokenIndex = $phpcsFile->findNext(array(T_WHITESPACE), $stackPtr + 1, null, true);
@@ -76,16 +100,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             return;
         }
         
-        $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
-            array(T_WHITESPACE),
-            $arrayDeclarationCloseIndex,
-            true);
-        $isClosingParenOnItsOwnLine = $firstTokenOnLastLineIndex == $arrayDeclarationCloseIndex;
-        if (!$isClosingParenOnItsOwnLine) {
-            $phpcsFile->addError(
-                'Closing parenthesis of multi-line array declaration must be on its own line',
-                $arrayDeclarationCloseIndex,
-                'ArrayIndent');
+        if (!$this->checkClosingParenIsOnItsOwnLine($phpcsFile, $arrayDeclarationCloseIndex)) {
             return;
         }
         
