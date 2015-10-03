@@ -54,7 +54,8 @@ class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
             return;
         } 
         
-        if ($currentLineNumber > $tokens[0]['line']) {
+        $thisIsntTheFirstLine = $currentLineNumber > $tokens[0]['line'];
+        if ($thisIsntTheFirstLine) {
             /**
              * no previous token and this isn't the first line
              */
