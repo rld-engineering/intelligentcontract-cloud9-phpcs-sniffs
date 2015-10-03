@@ -9,16 +9,52 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         return array(T_ARRAY);
     }
     
+    /**
+     * 
+     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param int $firstMemberTokenIndex
+     * @return void
+     */
+    private function checkArrayMembersAreSeparatedByWhiteSpace(PHP_CodeSniffer_File $phpcsFile, $firstMemberTokenIndex)
+    {
+        $tokens = $phpcsFile->getTokens();
+        
+        $nextArrayMemberIndex = $phpcsFile->findNext(
+            array(T_WHITESPACE),
+            $firstMemberTokenIndex + 1,
+            null,
+            true);
+
+        $isThisTheFirstArrayMember = true;
+        while ($nextArrayMemberIndex) {
+            /**
+             * check there's some whitespace after this token
+             */
+            $indexOfTokenPrecedingMember = $nextArrayMemberIndex - 1;
+            $tokenPrecedingNextMember = $tokens[$indexOfTokenPrecedingMember];
+            if (!$isThisTheFirstArrayMember && $tokenPrecedingNextMember['code'] != T_WHITESPACE) {
+                $phpcsFile->addError(
+                    "Array members must be separated by a single space or a line-break",
+                    $indexOfTokenPrecedingMember,
+                    'ArrayIndent');
+                return;
+            }
+
+            $isThisTheFirstArrayMember = false;
+            $nextArrayMemberIndex = $this->getNextArrayMemberIndex($phpcsFile, $nextArrayMemberIndex + 1);
+        }
+    }
+    
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $nextNonWhitespaceTokenIndex = $phpcsFile->findNext(array(T_WHITESPACE), $stackPtr + 1, null, true);
+        $firstMemberTokenIndex = $phpcsFile->findNext(array(T_WHITESPACE), $stackPtr + 1, null, true);
         
-        if (!$nextNonWhitespaceTokenIndex) {
+        if (!$firstMemberTokenIndex) {
             return;
         }
         
         $tokens = $phpcsFile->getTokens();
-        $arrayDeclarationOpen = $tokens[$nextNonWhitespaceTokenIndex];
+        $arrayDeclarationOpen = $tokens[$firstMemberTokenIndex];
         
         $thisIsNotAnArrayDeclaration = $arrayDeclarationOpen['code'] != T_OPEN_PARENTHESIS;
         
@@ -26,7 +62,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             return;
         }
         
-        $arrayDeclarationCloseIndex = $this->getArrayDeclarationCloseIndex($phpcsFile, $nextNonWhitespaceTokenIndex);
+        $arrayDeclarationCloseIndex = $this->getArrayDeclarationCloseIndex($phpcsFile, $firstMemberTokenIndex);
         
         if (!$arrayDeclarationCloseIndex) {
             return;
@@ -36,31 +72,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         
         $isArrayDeclarationOnOneLine = $arrayDeclarationClose['line'] == $arrayDeclarationOpen['line'];
         if ($isArrayDeclarationOnOneLine) {
-            $nextArrayMemberIndex = $phpcsFile->findNext(
-                array(T_WHITESPACE),
-                $nextNonWhitespaceTokenIndex + 1,
-                null,
-                true);
-            
-            $isThisTheFirstArrayMember = true;
-            while ($nextArrayMemberIndex) {
-                /**
-                 * check there's some whitespace after this token
-                 */
-                $indexOfTokenPrecedingMember = $nextArrayMemberIndex - 1;
-                $tokenPrecedingNextMember = $tokens[$indexOfTokenPrecedingMember];
-                if (!$isThisTheFirstArrayMember && $tokenPrecedingNextMember['code'] != T_WHITESPACE) {
-                    $phpcsFile->addError(
-                        "Array members must be separated by a single space or a line-break",
-                        $indexOfTokenPrecedingMember,
-                        'ArrayIndent');
-                    return;
-                }
-                
-                $isThisTheFirstArrayMember = false;
-                $nextArrayMemberIndex = $this->getNextArrayMemberIndex($phpcsFile, $nextArrayMemberIndex + 1);
-            }
-            
+            $this->checkArrayMembersAreSeparatedByWhiteSpace($phpcsFile, $firstMemberTokenIndex);
             return;
         }
         
@@ -79,7 +91,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         
         $nextArrayMemberIndex = $phpcsFile->findNext(
             array(T_WHITESPACE),
-            $nextNonWhitespaceTokenIndex + 1,
+            $firstMemberTokenIndex + 1,
             null,
             true);
         
