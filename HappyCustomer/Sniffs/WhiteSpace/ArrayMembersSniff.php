@@ -33,10 +33,8 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             return;
         }
         
-        if ($arrayDeclarationClose['line'] == $arrayDeclarationOpen['line']) {
-            /**
-             * array declaration is on one line
-             */
+        $arrayDeclarationIsOnOneLine = $arrayDeclarationClose['line'] == $arrayDeclarationOpen['line'];
+        if ($arrayDeclarationIsOnOneLine) {
             $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
                 array(T_WHITESPACE),
                 $arrayDeclarationCloseIndex,
