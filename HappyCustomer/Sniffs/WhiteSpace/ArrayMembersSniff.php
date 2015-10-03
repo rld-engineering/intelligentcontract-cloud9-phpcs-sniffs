@@ -42,7 +42,22 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
                 null,
                 true);
             
+            $isThisTheFirstArrayMember = true;
             while ($nextArrayMemberIndex) {
+                /**
+                 * check there's some whitespace after this token
+                 */
+                $indexOfTokenPrecedingMember = $nextArrayMemberIndex - 1;
+                $tokenPrecedingNextMember = $tokens[$indexOfTokenPrecedingMember];
+                if (!$isThisTheFirstArrayMember && $tokenPrecedingNextMember['code'] != T_WHITESPACE) {
+                    $phpcsFile->addError(
+                        "Array members must be separated by a single space or a line-break",
+                        $indexOfTokenPrecedingMember,
+                        'ArrayIndent');
+                    return;
+                }
+                
+                $isThisTheFirstArrayMember = false;
                 $nextArrayMemberIndex = $this->getNextArrayMemberIndex($phpcsFile, $nextArrayMemberIndex + 1);
             }
             
@@ -105,20 +120,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             $token = $tokens[$nextCommaOrParenthesisIndex];
 
             if ($token['code'] == T_COMMA && !$parenCount) {
-                /**
-                 * check there's some whitespace after this token
-                 */
-                $tokenFollowingComma = $tokens[$nextCommaOrParenthesisIndex + 1];
-                if ($tokenFollowingComma['code'] != T_WHITESPACE) {
-                    $phpcsFile->addError(
-                        "Array members must be separated by a single space or a line-break",
-                        $nextCommaOrParenthesisIndex,
-                        'ArrayIndent');
-                    return null;
-                }
-                
-                $return = $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
-                return $return;
+                return $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
             }
 
             if ($token['code'] == T_OPEN_PARENTHESIS) {
