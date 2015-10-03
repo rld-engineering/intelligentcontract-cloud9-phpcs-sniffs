@@ -24,8 +24,10 @@ class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
     {
         $currentLineNumber = $tokens[$stackPtr]['line'];
         
-        return count($tokens) == $stackPtr + 1
-            || $tokens[$stackPtr + 1]['line'] > $currentLineNumber;
+        $isThisTheSecondToLastTokenInFile = count($tokens) == $stackPtr + 1;
+        $nextTokensLineNumber = $tokens[$stackPtr + 1]['line'];
+        
+        return $isThisTheSecondToLastTokenInFile || $nextTokensLineNumber > $currentLineNumber;
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
