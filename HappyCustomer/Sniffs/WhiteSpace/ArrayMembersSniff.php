@@ -151,6 +151,12 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         }
     }
     
+    /**
+     * 
+     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param int $stackPtr
+     * @return int
+     */
     private function getNextArrayMemberIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $nextCommaOrParenthesisIndex = $phpcsFile->findNext(
@@ -192,6 +198,12 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         return null;
     }
     
+    /**
+     * 
+     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param int $stackPtr
+     * @return int
+     */
     private function getArrayDeclarationCloseIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
