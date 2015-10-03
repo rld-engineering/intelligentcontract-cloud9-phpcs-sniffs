@@ -33,8 +33,8 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             return;
         }
         
-        $arrayDeclarationIsOnOneLine = $arrayDeclarationClose['line'] == $arrayDeclarationOpen['line'];
-        if ($arrayDeclarationIsOnOneLine) {
+        $IsArrayDeclarationOnOneLine = $arrayDeclarationClose['line'] == $arrayDeclarationOpen['line'];
+        if ($IsArrayDeclarationOnOneLine) {
             $nextArrayMemberIndex = $phpcsFile->findNext(
                 array(T_WHITESPACE),
                 $nextNonWhitespaceTokenIndex + 1,
