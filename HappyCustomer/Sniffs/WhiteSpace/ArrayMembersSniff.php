@@ -104,12 +104,20 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             return;
         }
         
-        $this->checkMultiLineArrayIndents($phpcsFile, $firstMemberTokenIndex, $stackPtr);
+        $this->checkMultiLineArrayIndents($phpcsFile, $stackPtr);
     }
     
-    private function checkMultiLineArrayIndents(PHP_CodeSniffer_File $phpcsFile, $firstMemberTokenIndex, $stackPtr)
-    {
+    private function checkMultiLineArrayIndents(
+        PHP_CodeSniffer_File $phpcsFile,
+        $arrayDeclarationLineStartIndex
+    ) {
         $tokens = $phpcsFile->getTokens();
+        
+        $firstMemberTokenIndex = $phpcsFile->findNext(
+            array(T_WHITESPACE),
+            $arrayDeclarationLineStartIndex + 1,
+            null,
+            true);
         
         $nextArrayMemberIndex = $phpcsFile->findNext(
             array(T_WHITESPACE),
@@ -117,7 +125,6 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             null,
             true);
         
-        $arrayDeclarationLineStartIndex = $phpcsFile->findFirstOnLine(array(T_WHITESPACE), $stackPtr, true);
         $arrayDeclarationLineStart = $tokens[$arrayDeclarationLineStartIndex];
         
         while ($nextArrayMemberIndex) {
