@@ -172,19 +172,25 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         while ($nextCommaOrParenthesisIndex) {
             $token = $tokens[$nextCommaOrParenthesisIndex];
 
-            $thisIsACommaAndWeAreNotInANestedStructure = $token['code'] == T_COMMA && !$parenCount;
-            if ($thisIsACommaAndWeAreNotInANestedStructure) {
-                return $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
-            }
-
-            if ($token['code'] == T_OPEN_PARENTHESIS) {
-                $parenCount++;
-            } elseif ($token['code'] == T_CLOSE_PARENTHESIS) {
-                if (!$parenCount) {
-                    return null;
-                }
-
-                $parenCount--;
+            switch ($token['code']) {
+                case T_COMMA:
+                    $thisIsACommaAndWeAreNotInANestedStructure = !$parenCount;
+                    if ($thisIsACommaAndWeAreNotInANestedStructure) {
+                        return $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
+                    }
+                    break;
+                case T_OPEN_PARENTHESIS:
+                    $parenCount++;
+                    break;
+                case T_CLOSE_PARENTHESIS:
+                    if (!$parenCount) {
+                        return null;
+                    }
+                    
+                    $parenCount--;
+                    break;
+                default:
+                    throw new Exception('unhandled code: ' . $token['code']);
             }
             
             $nextCommaOrParenthesisIndex = $phpcsFile->findNext(
