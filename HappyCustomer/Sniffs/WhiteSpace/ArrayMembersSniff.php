@@ -20,7 +20,9 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         $tokens = $phpcsFile->getTokens();
         $arrayDeclarationOpen = $tokens[$nextNonWhitespaceTokenIndex];
         
-        if ($arrayDeclarationOpen['code'] != T_OPEN_PARENTHESIS) {
+        $thisIsNotAnArrayDeclaration = $arrayDeclarationOpen['code'] != T_OPEN_PARENTHESIS;
+        
+        if ($thisIsNotAnArrayDeclaration) {
             return;
         }
         
