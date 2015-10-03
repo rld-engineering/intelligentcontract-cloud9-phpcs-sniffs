@@ -176,8 +176,8 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
 
             switch ($token['code']) {
                 case T_COMMA:
-                    $thisIsACommaAndWeAreNotInANestedStructure = !$parenCount;
-                    if ($thisIsACommaAndWeAreNotInANestedStructure) {
+                    $weAreNotInANestedStructure = !$parenCount;
+                    if ($weAreNotInANestedStructure) {
                         return $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
                     }
                     break;
@@ -215,21 +215,24 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         
         $openParenCount = 0;
         
+        $tokenTypesToScanFor = array(T_CLOSE_PARENTHESIS, T_OPEN_PARENTHESIS);
+        
         $nextParenTokenIndex = $phpcsFile->findNext(
-            array(T_CLOSE_PARENTHESIS, T_OPEN_PARENTHESIS),
+            $tokenTypesToScanFor,
             $stackPtr + 1);
         
         while ($nextParenTokenIndex) {
             $nextParenToken = $tokens[$nextParenTokenIndex];
             
-            if (!$openParenCount && $nextParenToken['code'] == T_CLOSE_PARENTHESIS) {
+            $weAreNotInANestedStructure = !$openParenCount;
+            if ($weAreNotInANestedStructure && $nextParenToken['code'] == T_CLOSE_PARENTHESIS) {
                 return $nextParenTokenIndex;
             }
             
-            $openParenCount += $nextParenToken['code'] == T_OPEN_PARENTHESIS ? 1 : -1;
+            $openParenCount += ($nextParenToken['code'] == T_OPEN_PARENTHESIS) ? 1 : -1;
             
             $nextParenTokenIndex = $phpcsFile->findNext(
-                array(T_CLOSE_PARENTHESIS, T_OPEN_PARENTHESIS),
+                $tokenTypesToScanFor,
                 $nextParenTokenIndex + 1);
         }
         
