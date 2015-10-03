@@ -104,6 +104,13 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             return;
         }
         
+        $this->checkMultiLineArrayIndents($phpcsFile, $firstMemberTokenIndex, $stackPtr);
+    }
+    
+    private function checkMultiLineArrayIndents(PHP_CodeSniffer_File $phpcsFile, $firstMemberTokenIndex, $stackPtr)
+    {
+        $tokens = $phpcsFile->getTokens();
+        
         $nextArrayMemberIndex = $phpcsFile->findNext(
             array(T_WHITESPACE),
             $firstMemberTokenIndex + 1,
