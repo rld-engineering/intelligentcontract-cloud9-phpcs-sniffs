@@ -21,6 +21,12 @@ class WhiteSpace_MultiLineStatementIndentTest extends TestCase
                     [11, 17, 'Indent incorrect; expected 12, found 16']
                 ]
             ],
+            'indent too small' => [
+                __DIR__ . '/_files/MultiLineStatementIndent/indent-too-small.php',
+                [
+                    [11, 9, 'Indent incorrect; expected 12, found 8']
+                ]
+            ],
             'indent too big, integer args' => [
                 __DIR__ . '/_files/MultiLineStatementIndent/indent-wrong-integers.php',
                 [
