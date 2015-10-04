@@ -9,6 +9,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
         return array(
             T_OBJECT_OPERATOR,
             T_STRING,
+            T_LNUMBER,
             T_VARIABLE,
             T_CONSTANT_ENCAPSED_STRING,
             T_ARRAY,
