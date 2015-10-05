@@ -14,6 +14,7 @@ class WhiteSpace_ArrayMembersTest extends TestCase
     {
         return [
             'empty method' => [__DIR__ . '/_files/ArrayMembers/empty-method.php', []],
+            'incomplete array declaration' => [__DIR__ . '/_files/ArrayMembers/incomplete-array-declaration.php', []],
             'single line array declaration' => [__DIR__ . '/_files/ArrayMembers/single-line-array.php', []],
             'empty array declaration' => [__DIR__ . '/_files/ArrayMembers/empty-array-declaration.php', []],
             'multi line array declaration' => [__DIR__ . '/_files/ArrayMembers/multi-line-array.php', []],
