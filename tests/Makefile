@@ -1,5 +1,7 @@
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
+precommit: phpunit
+
 phpunit:
 	cd $(ROOT_DIR); phpunit .
 
