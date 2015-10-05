@@ -71,16 +71,16 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $firstMemberTokenIndex = $phpcsFile->findNext(array(T_WHITESPACE), $stackPtr + 1, null, true);
+        $arrayDeclarationOpenIndex = $phpcsFile->findNext(array(T_WHITESPACE), $stackPtr + 1, null, true);
         
-        if (!$firstMemberTokenIndex) {
+        if (!$arrayDeclarationOpenIndex) {
             return;
         }
         
         $tokens = $phpcsFile->getTokens();
-        $arrayDeclarationOpen = $tokens[$firstMemberTokenIndex];
+        $arrayDeclarationOpen = $tokens[$arrayDeclarationOpenIndex];
         
-        $arrayDeclarationCloseIndex = $this->getArrayDeclarationCloseIndex($phpcsFile, $firstMemberTokenIndex);
+        $arrayDeclarationCloseIndex = $this->getArrayDeclarationCloseIndex($phpcsFile, $arrayDeclarationOpenIndex);
         
         if (!$arrayDeclarationCloseIndex) {
             return;
@@ -90,7 +90,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
         
         $isArrayDeclarationOnOneLine = $arrayDeclarationClose['line'] == $arrayDeclarationOpen['line'];
         if ($isArrayDeclarationOnOneLine) {
-            $this->checkArrayMembersAreSeparatedByWhiteSpace($phpcsFile, $firstMemberTokenIndex);
+            $this->checkArrayMembersAreSeparatedByWhiteSpace($phpcsFile, $arrayDeclarationOpenIndex);
             return;
         }
         

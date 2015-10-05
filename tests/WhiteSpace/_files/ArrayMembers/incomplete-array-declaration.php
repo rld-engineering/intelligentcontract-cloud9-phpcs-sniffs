@@ -5,4 +5,4 @@ class test
     
     public function foo()
     {
-        array(
+        array
