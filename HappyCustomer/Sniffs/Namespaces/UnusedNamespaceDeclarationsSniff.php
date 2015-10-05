@@ -107,14 +107,14 @@ class HappyCustomer_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
 
         $next = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
         if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
-            $return = false;
-        } elseif ($phpcsFile->hasCondition($stackPtr, array(T_CLASS, T_TRAIT)) === true) {
-            $return = false;
-        } else {
-            $return = true;
+           return false;
+        } 
+        
+        if ($phpcsFile->hasCondition($stackPtr, array(T_CLASS, T_TRAIT)) === true) {
+            return false;
         }
-
-        return $return;
+        
+        return true;
     }
     
 }
