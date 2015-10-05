@@ -20,6 +20,12 @@ class Strings_ConcatenationSpacingTest extends TestCase
                     [8, 23, "More than one space found between concat operator and adjacent expression"]
                 ]
             ],
+            'too many spaces after' => [
+                __DIR__ . '/_files/ConcatenationSpacing/too-many-spaces-after.php',
+                [
+                    [8, 22, "More than one space found between concat operator and adjacent expression"]
+                ]
+            ],
             'no spaces' => [
                 __DIR__ . '/_files/ConcatenationSpacing/no-spaces.php',
                 [
