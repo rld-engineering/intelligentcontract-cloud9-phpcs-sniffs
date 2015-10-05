@@ -4,4 +4,9 @@
     stopOnError="true"
     stopOnFailure="true"
     >
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../HappyCustomer</directory>
+        </whitelist>
+    </filter>
 </phpunit>
