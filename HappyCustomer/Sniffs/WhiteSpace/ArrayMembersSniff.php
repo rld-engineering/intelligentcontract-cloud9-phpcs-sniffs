@@ -113,6 +113,11 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
     ) {
         $tokens = $phpcsFile->getTokens();
         
+        $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
+            array(T_WHITESPACE),
+            $arrayDeclarationLineStartIndex,
+            true);
+        
         $firstMemberTokenIndex = $phpcsFile->findNext(
             array(T_WHITESPACE),
             $arrayDeclarationLineStartIndex + 1,
@@ -125,7 +130,7 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
             null,
             true);
         
-        $arrayDeclarationLineStart = $tokens[$arrayDeclarationLineStartIndex];
+        $arrayDeclarationLineStart = $tokens[$firstTokenOnLastLineIndex];
         
         while ($nextArrayMemberIndex) {
             $nextArrayMemberToken = $tokens[$nextArrayMemberIndex];

@@ -13,6 +13,7 @@ class WhiteSpace_ArrayMembersTest extends TestCase
     public function sniffProvider()
     {
         return [
+            'array assignment' => [__DIR__ . '/_files/ArrayMembers/array-assignment.php', []],
             'empty method' => [__DIR__ . '/_files/ArrayMembers/empty-method.php', []],
             'incomplete array declaration' => [__DIR__ . '/_files/ArrayMembers/incomplete-array-declaration.php', []],
             'incomplete array declaration, one member' => [
