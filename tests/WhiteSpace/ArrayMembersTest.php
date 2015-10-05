@@ -42,7 +42,14 @@ class WhiteSpace_ArrayMembersTest extends TestCase
                         10,
                         9,
                         'Indent incorrect; expected 12, found 8 (members of multi-line '
-                        . 'array declaration must be one per line, with no trailing comma)']
+                        . 'array declaration must be one per line, with no trailing comma)'
+                    ]
+                ]
+            ],
+            'multi line array, closing paren on wrong line' => [
+                __DIR__ . '/_files/ArrayMembers/multi-line-closing-paren-wrong.php',
+                [
+                    [11, 14, 'Closing parenthesis of multi-line array declaration must be on its own line']
                 ]
             ]
         ];
