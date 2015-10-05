@@ -32,6 +32,7 @@ class WhiteSpace_MultiLineStatementIndentTest extends TestCase
                     [11, 17, 'Indent incorrect; expected 12, found 16']
                 ]
             ],
+            'correct indent with closure arg' => [__DIR__ . '/_files/MultiLineStatementIndent/closure-arg.php', []]
         ];
     }
     
