@@ -59,7 +59,6 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
         $previousPossibleStartIndex = $stackPtr;
         $tokens = $phpcsFile->getTokens();
         $parenCount = 0;
-        $curlyParenCount = 0;
         $firstLineTokenIndex = false;
         $lastTokenFoundWasComma = false;
         $lastTokenFoundWasCloseParenthesis = false;
@@ -123,19 +122,14 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
-                    $curlyParenCount++;
                 } elseif ($previousPossibleCode == T_OPEN_CURLY_BRACKET) {
-                    if ($curlyParenCount) {
-                        $curlyParenCount--;
-                    } else {
-                        /**
-                         * open curly bracket found - this must be the beginning of the method our token's statement
-                         * is in
-                         */
-                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
-                            $phpcsFile,
-                            $previousPossibleStartIndex + 1);
-                    }
+                    /**
+                     * open curly bracket found - this must be the beginning of the method our token's statement
+                     * is in
+                     */
+                    $firstLineTokenIndex = $this->findNextStatementStartIndex(
+                        $phpcsFile,
+                        $previousPossibleStartIndex + 1);
                 } elseif ($previousPossibleCode == T_COMMA) {
                     $lastTokenFoundWasComma = true;
                     $commaEncountered = true;
@@ -144,7 +138,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         $objectOperatorEncountered = true;
                     }
                 } else {
-                    if (!$parenCount && !$curlyParenCount) {
+                    if (!$parenCount) {
                         $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
