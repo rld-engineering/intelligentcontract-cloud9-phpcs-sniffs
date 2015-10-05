@@ -71,6 +71,8 @@ class HappyCustomer_Sniffs_ControlStructures_ClosingParenNewlineSniff implements
             
             $nextParenIndex = $phpcsFile->findNext($searchTokens, $nextParenIndex + 1);
         }
+     
+        return false;
     }
     
 }
