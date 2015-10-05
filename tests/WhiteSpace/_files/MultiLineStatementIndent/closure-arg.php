@@ -7,7 +7,10 @@ class test
     {
         $this->blah(
             function () {
-                $this->foo();
+                if (true) {
+                    $this->foo();
+                }
+                $foo = 'asd';
             },
             2,
             '3');
