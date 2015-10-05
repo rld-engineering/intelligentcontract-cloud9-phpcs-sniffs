@@ -41,26 +41,12 @@ class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
         $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(T_WHITESPACE, $stackPtr - 1, null, true);
         $currentLineNumber = $tokens[$stackPtr]['line'];
 
-        $isThereANonWhiteSpaceTokenBeforeThisOne = $prevNonWhitespaceTokenIndex !== false;
-        
-        if ($isThereANonWhiteSpaceTokenBeforeThisOne) {
-            $prevNonWhitespaceToken = $tokens[$prevNonWhitespaceTokenIndex];
-            
-            $numberOfLinesBetweenLastNonWhiteSpaceTokenAndThisOne
-                = $currentLineNumber - $prevNonWhitespaceToken['line'];
+        $prevNonWhitespaceToken = $tokens[$prevNonWhitespaceTokenIndex];
 
-            if ($numberOfLinesBetweenLastNonWhiteSpaceTokenAndThisOne > 1) {
-                $phpcsFile->addError("Contiguous blank lines found", $stackPtr, 'ContiguousNewlines');
-            }
-            
-            return;
-        } 
-        
-        $thisIsntTheFirstLine = $currentLineNumber > $tokens[0]['line'];
-        if ($thisIsntTheFirstLine) {
-            /**
-             * no previous token and this isn't the first line
-             */
+        $numberOfLinesBetweenLastNonWhiteSpaceTokenAndThisOne
+            = $currentLineNumber - $prevNonWhitespaceToken['line'];
+
+        if ($numberOfLinesBetweenLastNonWhiteSpaceTokenAndThisOne > 1) {
             $phpcsFile->addError("Contiguous blank lines found", $stackPtr, 'ContiguousNewlines');
         }
     }
