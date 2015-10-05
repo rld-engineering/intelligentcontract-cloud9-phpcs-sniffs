@@ -14,6 +14,7 @@ class WhiteSpace_MultiLineStatementIndentTest extends TestCase
     {
         return [
             'empty method' => [__DIR__ . '/_files/MultiLineStatementIndent/empty-method.php', []],
+            'chained method call' => [__DIR__ . '/_files/MultiLineStatementIndent/chained-method-call.php', []],
             'indent too big' => [
                 __DIR__ . '/_files/MultiLineStatementIndent/indent-too-big.php',
                 [
