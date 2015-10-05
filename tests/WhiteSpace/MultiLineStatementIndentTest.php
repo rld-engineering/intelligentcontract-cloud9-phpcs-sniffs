@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../TestCase.php';
-require_once __DIR__ . '/../../HappyCustomer/Sniffs/WhiteSpace/DisallowContiguousNewlinesSniff.php';
 
 class WhiteSpace_MultiLineStatementIndentTest extends TestCase
 {
