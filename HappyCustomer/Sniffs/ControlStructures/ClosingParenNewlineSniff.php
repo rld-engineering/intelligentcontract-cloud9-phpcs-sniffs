@@ -54,7 +54,7 @@ class HappyCustomer_Sniffs_ControlStructures_ClosingParenNewlineSniff implements
         $nextParenIndex = $phpcsFile->findNext($searchTokens, $stackPtr + 1);
         $parenCount = 0;
         
-        while ($nextParenIndex) {
+        while (true) {
             $nextParenToken = $tokens[$nextParenIndex];
             
             switch ($nextParenToken['code']) {
@@ -71,8 +71,6 @@ class HappyCustomer_Sniffs_ControlStructures_ClosingParenNewlineSniff implements
             
             $nextParenIndex = $phpcsFile->findNext($searchTokens, $nextParenIndex + 1);
         }
-     
-        return false;
     }
     
 }
