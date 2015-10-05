@@ -123,6 +123,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
+                    $curlyParenCount++;
                 } elseif ($previousPossibleCode == T_OPEN_CURLY_BRACKET) {
                     if ($curlyParenCount) {
                         $curlyParenCount--;

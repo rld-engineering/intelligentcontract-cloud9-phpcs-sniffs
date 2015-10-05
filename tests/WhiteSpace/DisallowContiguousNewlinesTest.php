@@ -13,6 +13,9 @@ class WhiteSpace_DisallowContiguousNewlinesTest extends TestCase
     public function sniffProvider()
     {
         return [
+            'empty lines at end' => [
+                __DIR__ . '/_files/DisallowContiguousNewlines/empty-lines-end.php', []
+            ],
             'empty method' => [__DIR__ . '/_files/DisallowContiguousNewlines/empty-method.php', []],
             'two lines separated by space' => [
                 __DIR__ . '/_files/DisallowContiguousNewlines/two-lines-space-between.php',

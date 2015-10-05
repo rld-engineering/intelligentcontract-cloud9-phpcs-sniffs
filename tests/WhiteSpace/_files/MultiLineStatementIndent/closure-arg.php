@@ -8,7 +8,9 @@ class test
         $this->blah(
             function () {
                 if (true) {
-                    $this->foo();
+                    if (true) {
+                        $this->foo();
+                    }
                 }
                 $foo = 'asd';
             },
