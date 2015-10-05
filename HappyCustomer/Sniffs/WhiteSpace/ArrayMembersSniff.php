@@ -185,8 +185,6 @@ class HappyCustomer_Sniffs_Whitespace_ArrayMembersSniff
                     
                     $parenCount--;
                     break;
-                default:
-                    throw new Exception('unhandled code: ' . $token['code']);
             }
             
             $nextCommaOrParenthesisIndex = $phpcsFile->findNext(
