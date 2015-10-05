@@ -38,10 +38,6 @@ class HappyCustomer_Sniffs_Whitespace_SuperfluousNewlinesSniff
     
     private function tokenIndexIsInsideFunction(PHP_CodeSniffer_File $phpcsFile, $index)
     {
-        if (!$index) {
-            return false;
-        }
-        
         $tokens = $phpcsFile->getTokens();
         
         $tokenIndex = $phpcsFile->findPrevious(
