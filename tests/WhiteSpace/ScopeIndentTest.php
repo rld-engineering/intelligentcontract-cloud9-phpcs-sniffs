@@ -13,6 +13,8 @@ class WhiteSpace_ScopeIndentTest extends TestCase
     public function sniffProvider()
     {
         return [
+            'method call as arg' => [__DIR__ . '/_files/ScopeIndent/method-call-as-arg.php', []],
+            'multi line for' => [__DIR__ . '/_files/ScopeIndent/multi-line-for.php', []],
             'object operator' => [__DIR__ . '/_files/ScopeIndent/object-operator.php', []],
             'switch statement' => [__DIR__ . '/_files/ScopeIndent/switch-statement.php', []],
             'structure followed by statemment' => [__DIR__ . '/_files/ScopeIndent/structure-then-statement.php', []],

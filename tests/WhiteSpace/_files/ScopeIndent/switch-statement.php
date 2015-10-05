@@ -5,9 +5,11 @@ class test
     
     public function foo()
     {
-        switch ($foo) {
-            case 'bar':
-                return true;
+        if (true) {
+            switch ($foo) {
+                case 'bar':
+                    return true;
+            }
         }
     }
     
