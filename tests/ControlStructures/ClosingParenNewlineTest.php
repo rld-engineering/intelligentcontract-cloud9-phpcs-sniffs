@@ -13,7 +13,18 @@ class ControlStructures_ClosingParenNewlineTest extends TestCase
     public function sniffProvider()
     {
         return [
-            'single line structure' => [__DIR__ . '/_files/ClosingParenNewline/single-line-structure.php', []]
+            'single line structure' => [__DIR__ . '/_files/ClosingParenNewline/single-line-structure.php', []],
+            'correct multi-line structure' => [__DIR__ . '/_files/ClosingParenNewline/multi-line-structure.php', []],
+            'inccorrect multi-line structure' => [
+                __DIR__ . '/_files/ClosingParenNewline/multi-line-structure-incorrect.php',
+                [
+                    [
+                        8,
+                        9,
+                        'Closing parenthesis and "{" of a multi-line control structure expression should be '
+                        . 'on their own line']
+                ]
+            ]
         ];
     }
     
