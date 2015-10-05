@@ -5,11 +5,10 @@ class test
     
     public function foo()
     {
-        if (true) {
-            switch ($foo) {
-                case 'bar':
-                    return true;
-            }
+        switch ($foo) {
+            case 'remove':
+                $this->bar();
+                break;
         }
     }
     
