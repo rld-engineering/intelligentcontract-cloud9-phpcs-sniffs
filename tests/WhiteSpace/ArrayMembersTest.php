@@ -19,7 +19,6 @@ class WhiteSpace_ArrayMembersTest extends TestCase
             'empty array declaration' => [__DIR__ . '/_files/ArrayMembers/empty-array-declaration.php', []],
             'multi line array declaration' => [__DIR__ . '/_files/ArrayMembers/multi-line-array.php', []],
             'nested array' => [__DIR__ . '/_files/ArrayMembers/nested-array.php', []],
-            'array cast' => [__DIR__ . '/_files/ArrayMembers/array-cast.php', []],
             'single line array hanging comma' => [
                 __DIR__ . '/_files/ArrayMembers/single-line-array-hanging-comma.php',
                 [
