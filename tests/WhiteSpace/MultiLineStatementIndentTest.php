@@ -17,6 +17,10 @@ class WhiteSpace_MultiLineStatementIndentTest extends TestCase
             'method call arg' => [__DIR__ . '/_files/MultiLineStatementIndent/method-call-arg.php', []],
             'chained method call' => [__DIR__ . '/_files/MultiLineStatementIndent/chained-method-call.php', []],
             'chained method arg' => [__DIR__ . '/_files/MultiLineStatementIndent/chained-method-call-arg.php', []],
+            'multi line chained method call arg' => [
+                __DIR__ . '/_files/MultiLineStatementIndent/multi-line-chained-method-call-arg.php',
+                []
+            ],
             'method call arg with nested parens' => [
                 __DIR__ . '/_files/MultiLineStatementIndent/method-call-arg-nested-parens.php',
                 []
