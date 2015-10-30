@@ -77,7 +77,9 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     T_OPEN_SHORT_ARRAY,
                     T_COLON,
                     T_COMMA,
-                    T_OBJECT_OPERATOR
+                    T_OBJECT_OPERATOR,
+                    T_OPEN_SHORT_ARRAY,
+                    T_CLOSE_SHORT_ARRAY
                 ),
                 $previousPossibleStartIndex - 1);
             
@@ -85,10 +87,10 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                 $previousPossible = $tokens[$previousPossibleStartIndex];
                 $previousPossibleCode = $previousPossible['code'];
                 
-                if ($previousPossibleCode == T_CLOSE_PARENTHESIS) {
+                if ($previousPossibleCode == T_CLOSE_PARENTHESIS || $previousPossibleCode == T_CLOSE_SHORT_ARRAY) {
                     $parenCount++;
                     $lastTokenFoundWasCloseParenthesis = true;
-                } elseif ($previousPossibleCode == T_OPEN_PARENTHESIS) {
+                } elseif ($previousPossibleCode == T_OPEN_PARENTHESIS || $previousPossibleCode == T_OPEN_SHORT_ARRAY) {
                     if ($parenCount) {
                         $parenCount--;
                     } else {
@@ -150,7 +152,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                 if ($previousPossibleCode != T_COMMA) {
                     $lastTokenFoundWasComma = false;
                 }
-                if ($previousPossibleCode != T_CLOSE_PARENTHESIS) {
+                if ($previousPossibleCode != T_CLOSE_PARENTHESIS && $previousPossibleCode != T_CLOSE_SHORT_ARRAY) {
                     $lastTokenFoundWasCloseParenthesis = false;
                 }
             }
