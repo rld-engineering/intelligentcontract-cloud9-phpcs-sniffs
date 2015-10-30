@@ -13,7 +13,8 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
             T_VARIABLE,
             T_CONSTANT_ENCAPSED_STRING,
             T_ARRAY,
-            T_ARRAY_HINT
+            T_ARRAY_HINT,
+            T_OPEN_SHORT_ARRAY
         );
     }
     
@@ -73,6 +74,7 @@ class HappyCustomer_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     T_SEMICOLON,
                     T_OPEN_PARENTHESIS,
                     T_CLOSE_PARENTHESIS,
+                    T_OPEN_SHORT_ARRAY,
                     T_COLON,
                     T_COMMA,
                     T_OBJECT_OPERATOR
