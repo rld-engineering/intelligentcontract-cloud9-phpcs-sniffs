@@ -47,7 +47,12 @@ class WhiteSpace_MultiLineStatementIndentTest extends TestCase
                 ]
             ],
             'correct indent with closure arg' => [__DIR__ . '/_files/MultiLineStatementIndent/closure-arg.php', []],
-            'short array declaration' => [__DIR__ . '/_files/MultiLineStatementIndent/short-array.php', []]
+            'long array declaration' => [__DIR__ . '/_files/MultiLineStatementIndent/long-array.php', []],
+            'short array declaration' => [__DIR__ . '/_files/MultiLineStatementIndent/short-array.php', []],
+            'nested short array declaration' => [
+                __DIR__ . '/_files/MultiLineStatementIndent/nested-short-array.php',
+                []
+            ]
         ];
     }
     

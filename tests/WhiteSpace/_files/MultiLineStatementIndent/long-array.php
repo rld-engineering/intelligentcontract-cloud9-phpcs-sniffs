@@ -5,10 +5,10 @@ class test
     
     public function foo()
     {
-        $foo = [
+        $foo = array(
             10,
             20
-        ];
+        );
     }
     
 }
