@@ -13,25 +13,25 @@ class WhiteSpace_ArrayMembersTest extends TestCase
     public function sniffProvider()
     {
         return [
-            'array assignment' => [__DIR__ . '/_files/ArrayMembers/array-assignment.php', []],
-            'empty method' => [__DIR__ . '/_files/ArrayMembers/empty-method.php', []],
-            'incomplete array declaration' => [__DIR__ . '/_files/ArrayMembers/incomplete-array-declaration.php', []],
+            'array assignment' => ['array-assignment', []],
+            'empty method' => ['empty-method', []],
+            'incomplete array declaration' => ['incomplete-array-declaration', []],
             'incomplete array declaration, one member' => [
-                __DIR__ . '/_files/ArrayMembers/incomplete-array-declaration-one-member.php',
+                'incomplete-array-declaration-one-member',
                 []
             ],
-            'single line array declaration' => [__DIR__ . '/_files/ArrayMembers/single-line-array.php', []],
-            'empty array declaration' => [__DIR__ . '/_files/ArrayMembers/empty-array-declaration.php', []],
-            'multi line array declaration' => [__DIR__ . '/_files/ArrayMembers/multi-line-array.php', []],
-            'nested array' => [__DIR__ . '/_files/ArrayMembers/nested-array.php', []],
+            'single line array declaration' => ['single-line-array', []],
+            'empty array declaration' => ['empty-array-declaration', []],
+            'multi line array declaration' => ['multi-line-array', []],
+            'nested array' => [ 'nested-array', []],
             'single line array hanging comma' => [
-                __DIR__ . '/_files/ArrayMembers/single-line-array-hanging-comma.php',
+                'single-line-array-hanging-comma',
                 [
                     [8, 22, 'Array members must be separated by a single space or a line-break']
                 ]
             ],
             'multi line array hanging comma' => [
-                __DIR__ . '/_files/ArrayMembers/multi-line-array-hanging-comma.php',
+                'multi-line-array-hanging-comma',
                 [
                     [
                         12,
@@ -41,7 +41,7 @@ class WhiteSpace_ArrayMembersTest extends TestCase
                 ]
             ],
             'multi line array incorrect indent' => [
-                __DIR__ . '/_files/ArrayMembers/multi-line-incorrect-indent.php',
+                'multi-line-incorrect-indent',
                 [
                     [
                         10,
@@ -52,7 +52,7 @@ class WhiteSpace_ArrayMembersTest extends TestCase
                 ]
             ],
             'multi line array, closing paren on wrong line' => [
-                __DIR__ . '/_files/ArrayMembers/multi-line-closing-paren-wrong.php',
+                'multi-line-closing-paren-wrong',
                 [
                     [11, 14, 'Closing parenthesis of multi-line array declaration must be on its own line']
                 ]

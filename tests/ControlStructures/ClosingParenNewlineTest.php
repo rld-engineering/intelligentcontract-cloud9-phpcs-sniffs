@@ -13,11 +13,11 @@ class ControlStructures_ClosingParenNewlineTest extends TestCase
     public function sniffProvider()
     {
         return [
-            'incomplete for structure' => [__DIR__ . '/_files/ClosingParenNewline/incomplete-for.php', []],
-            'single line structure' => [__DIR__ . '/_files/ClosingParenNewline/single-line-structure.php', []],
-            'correct multi-line structure' => [__DIR__ . '/_files/ClosingParenNewline/multi-line-structure.php', []],
+            'incomplete for structure' => ['incomplete-for', []],
+            'single line structure' => ['single-line-structure', []],
+            'correct multi-line structure' => ['multi-line-structure', []],
             'inccorrect multi-line structure' => [
-                __DIR__ . '/_files/ClosingParenNewline/multi-line-structure-incorrect.php',
+                'multi-line-structure-incorrect',
                 [
                     [
                         8,

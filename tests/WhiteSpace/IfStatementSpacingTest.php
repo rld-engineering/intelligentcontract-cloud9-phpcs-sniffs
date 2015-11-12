@@ -13,10 +13,10 @@ class WhiteSpace_IfStatementSpacingTest extends TestCase
     public function sniffProvider()
     {
         return [
-            'single arg, correct spacing' => [__DIR__ . '/_files/IfStatementSpacing/correct-spacing.php', []],
-            'first arg on new line' => [__DIR__ . '/_files/IfStatementSpacing/first-arg-on-newline.php', []],
+            'single arg, correct spacing' => ['correct-spacing', []],
+            'first arg on new line' => ['first-arg-on-newline', []],
             'whitespace before args' => [
-                __DIR__ . '/_files/IfStatementSpacing/whitespace-before-args.php',
+                'whitespace-before-args',
                 [
                     [8, 9, "Whitespace found before 'if' statement conditions"]
                 ]

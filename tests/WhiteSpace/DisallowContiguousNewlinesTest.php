@@ -14,27 +14,27 @@ class WhiteSpace_DisallowContiguousNewlinesTest extends TestCase
     {
         return [
             'empty lines at end' => [
-                __DIR__ . '/_files/DisallowContiguousNewlines/empty-lines-end.php', []
+                'empty-lines-end', []
             ],
-            'empty method' => [__DIR__ . '/_files/DisallowContiguousNewlines/empty-method.php', []],
+            'empty method' => ['empty-method', []],
             'two lines separated by space' => [
-                __DIR__ . '/_files/DisallowContiguousNewlines/two-lines-space-between.php',
+                'two-lines-space-between',
                 []
             ],
             'empty method with contiguous newlines' => [
-                __DIR__ . '/_files/DisallowContiguousNewlines/empty-method-contiguous-newlines.php',
+                'empty-method-contiguous-newlines',
                 [
                     [9, 1, 'Contiguous blank lines found']
                 ]
             ],
             'two lines separated by contiguous newlines' => [
-                __DIR__ . '/_files/DisallowContiguousNewlines/two-lines-contiguous-newlines.php',
+                'two-lines-contiguous-newlines',
                 [
                     [10, 1, 'Contiguous blank lines found']
                 ]
             ],
             'empty lines at start' => [
-                __DIR__ . '/_files/DisallowContiguousNewlines/empty-lines-start.php',
+                'empty-lines-start',
                 [
                     [3, 1, 'Contiguous blank lines found']
                 ]

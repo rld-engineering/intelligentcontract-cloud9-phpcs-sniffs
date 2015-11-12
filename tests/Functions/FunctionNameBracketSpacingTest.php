@@ -13,9 +13,9 @@ class Functions_FunctionNameBracketSpacingTest extends TestCase
     public function sniffProvider()
     {
         return [
-            'correct spacing' => [__DIR__ . '/_files/FunctionNameBracketSpacing/correct-spacing.php', []],
+            'correct spacing' => ['correct-spacing', []],
             'incorrect spacing' => [
-                __DIR__ . '/_files/FunctionNameBracketSpacing/incorrect-spacing.php',
+                'incorrect-spacing',
                 [
                     [6, 13, 'Space found between function name and opening parenthesis']
                 ]

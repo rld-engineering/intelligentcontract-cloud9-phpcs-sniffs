@@ -13,13 +13,13 @@ class Namespaces_UnusedNamespaceDeclarationsTest extends TestCase
     public function sniffProvider()
     {
         return [
-            'used namespace' => [__DIR__ . '/_files/UnusedNamespaceDeclarations/used-namespace.php', []],
-            'closure use statement' => [__DIR__ . '/_files/UnusedNamespaceDeclarations/closure-use.php', []],
-            'trait use statement' => [__DIR__ . '/_files/UnusedNamespaceDeclarations/trait.php', []],
-            'new statement' => [__DIR__ . '/_files/UnusedNamespaceDeclarations/new-statement.php', []],
-            'multiple used namespaces' => [__DIR__ . '/_files/UnusedNamespaceDeclarations/multi-namespaces.php', []],
+            'used namespace' => ['used-namespace', []],
+            'closure use statement' => ['closure-use', []],
+            'trait use statement' => ['trait', []],
+            'new statement' => ['new-statement', []],
+            'multiple used namespaces' => ['multi-namespaces', []],
             'unused namespace' => [
-                __DIR__ . '/_files/UnusedNamespaceDeclarations/unused-namespace.php',
+                'unused-namespace',
                 [
                     [3, 1, "Unused 'use' declaration found"]
                 ]

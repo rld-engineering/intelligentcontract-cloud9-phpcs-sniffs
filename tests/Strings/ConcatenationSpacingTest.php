@@ -13,21 +13,21 @@ class Strings_ConcatenationSpacingTest extends TestCase
     public function sniffProvider()
     {
         return [
-            'correct spacing' => [__DIR__ . '/_files/ConcatenationSpacing/correct-spacing.php', []],
+            'correct spacing' => ['correct-spacing', []],
             'too many spaces' => [
-                __DIR__ . '/_files/ConcatenationSpacing/too-many-spaces.php',
+                'too-many-spaces',
                 [
                     [8, 23, "More than one space found between concat operator and adjacent expression"]
                 ]
             ],
             'too many spaces after' => [
-                __DIR__ . '/_files/ConcatenationSpacing/too-many-spaces-after.php',
+                'too-many-spaces-after',
                 [
                     [8, 22, "More than one space found between concat operator and adjacent expression"]
                 ]
             ],
             'no spaces' => [
-                __DIR__ . '/_files/ConcatenationSpacing/no-spaces.php',
+                'no-spaces',
                 [
                     [8, 21, "Non-whitespace character found adjacent to string concat operator"]
                 ]

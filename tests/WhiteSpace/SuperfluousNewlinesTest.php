@@ -14,11 +14,11 @@ class WhiteSpace_SuperfluousNewlinesTest extends TestCase
     {
         return [
             'no superfluous newlines' => [
-                __DIR__ . '/_files/SuperfluousNewlines/no-newlines.php',
+                'no-newlines',
                 []
             ],
             'single superfluous newline' => [
-                __DIR__ . '/_files/SuperfluousNewlines/single-superf-newline.php',
+                'single-superf-newline',
                 [
                     [9, 5, 'Superfluous newlines found before/after scope start/end']
                 ]

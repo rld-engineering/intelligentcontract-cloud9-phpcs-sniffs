@@ -32,6 +32,19 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     }
     
     /**
+     * 
+     * @param string $fileName
+     * @return string
+     */
+    private function getAbsoluteFileName($fileName)
+    {
+        $parts = explode('_', get_class($this));
+        $classNameWithoutTest = mb_substr($parts[1], 0, mb_strlen($parts[1]) - 4);
+        
+        return __DIR__ . '/' . $parts[0] . '/_files/' . $classNameWithoutTest . '/' . $fileName . '.inc';
+    }
+    
+    /**
      * @dataProvider sniffProvider
      */
     public function testSniff($fileName, $expectedErrors)
@@ -46,7 +59,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
                 array(
                     '-s'
                 ));
-        $file = $phpcs->processFile($fileName);
+        $file = $phpcs->processFile($this->getAbsoluteFileName($fileName));
         $errors = $file->getErrors();
         
         if (!$expectedErrors) {
