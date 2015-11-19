@@ -62,12 +62,19 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $file = $phpcs->processFile($this->getAbsoluteFileName($fileName));
         $errors = $file->getErrors();
         
+        $transformedErrors = $this->getTransformedErrors($errors);
+        
+        $errorString = '';
+        
+        if ($transformedErrors) {
+            $errorString .= $transformedErrors[0][2];
+        }
+        
         if (!$expectedErrors) {
-            $this->assertEquals(0, $file->getErrorCount());
+            $this->assertEquals(0, $file->getErrorCount(), $errorString);
             return;
         }
         
-        $transformedErrors = $this->getTransformedErrors($errors);
         $this->assertEquals($expectedErrors, $transformedErrors);
     }
     
