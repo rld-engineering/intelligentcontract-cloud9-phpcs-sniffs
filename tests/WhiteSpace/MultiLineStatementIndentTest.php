@@ -7,7 +7,7 @@ class WhiteSpace_MultiLineStatementIndentTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.WhiteSpace.MultiLineStatementIndent';
+        $this->sniffName = 'Cloud9Software.WhiteSpace.MultiLineStatementIndent';
     }
     
     public function sniffProvider()

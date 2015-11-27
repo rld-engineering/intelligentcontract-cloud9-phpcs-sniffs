@@ -7,7 +7,7 @@ class Strings_ConcatenationSpacingTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.Strings.ConcatenationSpacing';
+        $this->sniffName = 'Cloud9Software.Strings.ConcatenationSpacing';
     }
     
     public function sniffProvider()

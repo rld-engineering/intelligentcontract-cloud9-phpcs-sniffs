@@ -1,6 +1,6 @@
 <?php
 
-class HappyCustomer_Sniffs_Whitespace_SuperfluousNewlinesSniff
+class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
     implements PHP_CodeSniffer_Sniff
 {
     

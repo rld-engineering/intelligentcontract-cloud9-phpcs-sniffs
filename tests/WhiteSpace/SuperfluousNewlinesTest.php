@@ -7,7 +7,7 @@ class WhiteSpace_SuperfluousNewlinesTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.WhiteSpace.SuperfluousNewlines';
+        $this->sniffName = 'Cloud9Software.WhiteSpace.SuperfluousNewlines';
     }
     
     public function sniffProvider()

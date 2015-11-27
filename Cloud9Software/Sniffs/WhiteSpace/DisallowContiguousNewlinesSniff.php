@@ -5,7 +5,7 @@
  * of functions as well as inside them
  */
 
-class HappyCustomer_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
+class Cloud9Software_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
     implements PHP_CodeSniffer_Sniff
 {
     

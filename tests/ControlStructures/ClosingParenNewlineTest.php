@@ -7,7 +7,7 @@ class ControlStructures_ClosingParenNewlineTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.ControlStructures.ClosingParenNewline';
+        $this->sniffName = 'Cloud9Software.ControlStructures.ClosingParenNewline';
     }
     
     public function sniffProvider()

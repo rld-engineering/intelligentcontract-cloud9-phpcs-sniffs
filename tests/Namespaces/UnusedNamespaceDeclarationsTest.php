@@ -7,7 +7,7 @@ class Namespaces_UnusedNamespaceDeclarationsTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.Namespaces.UnusedNamespaceDeclarations';
+        $this->sniffName = 'Cloud9Software.Namespaces.UnusedNamespaceDeclarations';
     }
     
     public function sniffProvider()

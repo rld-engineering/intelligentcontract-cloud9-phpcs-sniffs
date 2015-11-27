@@ -7,7 +7,7 @@ class WhiteSpace_ArrayMembersTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.WhiteSpace.ArrayMembers';
+        $this->sniffName = 'Cloud9Software.WhiteSpace.ArrayMembers';
     }
     
     public function sniffProvider()

@@ -1,6 +1,6 @@
 <?php
 
-class HappyCustomer_Sniffs_Whitespace_MultiLineIfConditionSniff
+class Cloud9Software_Sniffs_Whitespace_MultiLineIfConditionSniff
     implements PHP_CodeSniffer_Sniff
 {
     

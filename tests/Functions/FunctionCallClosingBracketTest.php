@@ -7,7 +7,7 @@ class Functions_FunctionCallClosingBracketTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.Functions.FunctionCallClosingBracket';
+        $this->sniffName = 'Cloud9Software.Functions.FunctionCallClosingBracket';
     }
     
     public function sniffProvider()

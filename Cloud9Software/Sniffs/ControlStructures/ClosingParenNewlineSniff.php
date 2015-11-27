@@ -1,6 +1,6 @@
 <?php
 
-class HappyCustomer_Sniffs_ControlStructures_ClosingParenNewlineSniff implements PHP_CodeSniffer_Sniff
+class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implements PHP_CodeSniffer_Sniff
 {
     
     public function register()

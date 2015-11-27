@@ -6,7 +6,7 @@
     >
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../HappyCustomer</directory>
+            <directory suffix=".php">../Cloud9Software</directory>
         </whitelist>
     </filter>
 </phpunit>

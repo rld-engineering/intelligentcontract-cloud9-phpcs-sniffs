@@ -7,7 +7,7 @@ class Functions_FunctionNameBracketSpacingTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.Functions.FunctionNameBracketSpacing';
+        $this->sniffName = 'Cloud9Software.Functions.FunctionNameBracketSpacing';
     }
     
     public function sniffProvider()

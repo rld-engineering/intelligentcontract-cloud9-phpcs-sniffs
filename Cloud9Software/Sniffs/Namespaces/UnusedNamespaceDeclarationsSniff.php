@@ -1,6 +1,6 @@
 <?php
 
-class HappyCustomer_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
+class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
     implements PHP_CodeSniffer_Sniff
 {
     

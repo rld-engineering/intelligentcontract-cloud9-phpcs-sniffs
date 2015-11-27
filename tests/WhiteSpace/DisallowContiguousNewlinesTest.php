@@ -7,7 +7,7 @@ class WhiteSpace_DisallowContiguousNewlinesTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.WhiteSpace.DisallowContiguousNewlines';
+        $this->sniffName = 'Cloud9Software.WhiteSpace.DisallowContiguousNewlines';
     }
     
     public function sniffProvider()

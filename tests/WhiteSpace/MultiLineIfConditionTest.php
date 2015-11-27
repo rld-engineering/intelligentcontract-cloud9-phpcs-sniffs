@@ -7,7 +7,7 @@ class WhiteSpace_MultiLineIfConditionTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.WhiteSpace.MultiLineIfCondition';
+        $this->sniffName = 'Cloud9Software.WhiteSpace.MultiLineIfCondition';
     }
     
     public function sniffProvider()

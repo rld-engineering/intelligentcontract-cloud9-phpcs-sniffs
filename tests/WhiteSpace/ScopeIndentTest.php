@@ -7,7 +7,7 @@ class WhiteSpace_ScopeIndentTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.WhiteSpace.ScopeIndent';
+        $this->sniffName = 'Cloud9Software.WhiteSpace.ScopeIndent';
     }
     
     public function sniffProvider()

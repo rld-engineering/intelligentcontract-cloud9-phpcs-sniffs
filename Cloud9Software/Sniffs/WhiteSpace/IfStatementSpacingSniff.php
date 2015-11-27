@@ -1,6 +1,6 @@
 <?php
 
-class HappyCustomer_Sniffs_Whitespace_IfStatementSpacingSniff
+class Cloud9Software_Sniffs_Whitespace_IfStatementSpacingSniff
     implements PHP_CodeSniffer_Sniff
 {
     

@@ -7,7 +7,7 @@ class WhiteSpace_IfStatementSpacingTest extends TestCase
     
     public function setUp()
     {
-        $this->sniffName = 'HappyCustomer.WhiteSpace.IfStatementSpacing';
+        $this->sniffName = 'Cloud9Software.WhiteSpace.IfStatementSpacing';
     }
     
     public function sniffProvider()

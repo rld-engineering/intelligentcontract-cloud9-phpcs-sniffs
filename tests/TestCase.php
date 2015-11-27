@@ -51,7 +51,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     {
         $phpcs = new PHP_CodeSniffer();
         $phpcs->initStandard(
-            __DIR__ . '/../HappyCustomer/ruleset.xml',
+            __DIR__ . '/../Cloud9Software/ruleset.xml',
             array($this->sniffName));
 
         $phpcs->cli
