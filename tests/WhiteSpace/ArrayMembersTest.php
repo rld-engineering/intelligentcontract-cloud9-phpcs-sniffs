@@ -15,11 +15,6 @@ class WhiteSpace_ArrayMembersTest extends TestCase
         return [
             'array assignment' => ['array-assignment', []],
             'empty method' => ['empty-method', []],
-            'incomplete array declaration' => ['incomplete-array-declaration', []],
-            'incomplete array declaration, one member' => [
-                'incomplete-array-declaration-one-member',
-                []
-            ],
             'single line array declaration' => ['single-line-array', []],
             'empty array declaration' => ['empty-array-declaration', []],
             'multi line array declaration' => ['multi-line-array', []],
