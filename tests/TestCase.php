@@ -1,6 +1,6 @@
 <?php
 
-require_once '/usr/local/lib/php-libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/TestConfiguration.php';
 
 abstract class TestCase extends PHPUnit_Framework_TestCase
 {
