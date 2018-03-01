@@ -6,9 +6,9 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineIfConditionSniff
     
     public function register()
     {
-        return array(
+        return [
             T_IF
-        );
+        ];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)

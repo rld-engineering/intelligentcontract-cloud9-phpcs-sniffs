@@ -11,7 +11,7 @@ class Cloud9Software_Sniffs_Whitespace_DisallowContiguousNewlinesSniff
     
     public function register()
     {
-        return array(T_WHITESPACE);
+        return [T_WHITESPACE];
     }
     
     /**

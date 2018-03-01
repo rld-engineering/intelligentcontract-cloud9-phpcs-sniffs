@@ -6,7 +6,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
     
     public function register()
     {
-        return array(T_USE);
+        return [T_USE];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
@@ -14,7 +14,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
         $tokens = $phpcsFile->getTokens();
         
         if ($this->isUseDeclaration($phpcsFile, $stackPtr)) {
-            $endOfDeclarationIndex = $phpcsFile->findNext(array(T_COMMA, T_SEMICOLON), $stackPtr + 1);
+            $endOfDeclarationIndex = $phpcsFile->findNext([T_COMMA, T_SEMICOLON], $stackPtr + 1);
             
             $endOfUseDeclarationReached = false;
             
@@ -46,10 +46,10 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                             null,
                             true);
 
-                        $validFollowingTokenTypes = array(
+                        $validFollowingTokenTypes = [
                             T_VARIABLE,
                             T_DOUBLE_COLON
-                        );
+                        ];
 
                         if ($nextNonWhitespaceTokenIndex
                             && in_array($tokens[$nextNonWhitespaceTokenIndex]['code'], $validFollowingTokenTypes)
@@ -88,7 +88,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                      * keep on going until we hit the last alias in this use declaration
                      */
                     $endOfDeclarationIndex = $phpcsFile->findNext(
-                        array(T_COMMA, T_SEMICOLON),
+                        [T_COMMA, T_SEMICOLON],
                         $endOfDeclarationIndex + 1);
                 }
             }
@@ -110,7 +110,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
            return false;
         } 
         
-        if ($phpcsFile->hasCondition($stackPtr, array(T_CLASS, T_TRAIT)) === true) {
+        if ($phpcsFile->hasCondition($stackPtr, [T_CLASS, T_TRAIT]) === true) {
             return false;
         }
         

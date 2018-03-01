@@ -6,7 +6,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
     
     public function register()
     {
-        return array(
+        return [
             T_OBJECT_OPERATOR,
             T_STRING,
             T_LNUMBER,
@@ -15,14 +15,14 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             T_ARRAY,
             T_ARRAY_HINT,
             T_OPEN_SHORT_ARRAY
-        );
+        ];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         
-        $firstTokenOnLineIndex = $phpcsFile->findFirstOnLine(array(T_WHITESPACE), $stackPtr, true);
+        $firstTokenOnLineIndex = $phpcsFile->findFirstOnLine([T_WHITESPACE], $stackPtr, true);
         $thisIsFirstTokenOnLine = ($firstTokenOnLineIndex == $stackPtr);
         
         $previousTokenIsString = $stackPtr && $tokens[$stackPtr - 1]['code'] == T_CONSTANT_ENCAPSED_STRING;
@@ -68,7 +68,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
         
         while ($previousPossibleStartIndex !== false && $firstLineTokenIndex === false) {
             $previousPossibleStartIndex = $phpcsFile->findPrevious(
-                array(
+                [
                     T_OPEN_CURLY_BRACKET,
                     T_CLOSE_CURLY_BRACKET,
                     T_SEMICOLON,
@@ -80,7 +80,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     T_OBJECT_OPERATOR,
                     T_OPEN_SHORT_ARRAY,
                     T_CLOSE_SHORT_ARRAY
-                ),
+                ],
                 $previousPossibleStartIndex - 1);
             
             if ($previousPossibleStartIndex !== false) {
@@ -162,7 +162,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             /**
              * we now know the line on which this statement starts, so we need the first token on the line
              */
-            $statementFirstTokenIndex = $phpcsFile->findFirstOnLine(array(T_WHITESPACE), $firstLineTokenIndex, true);
+            $statementFirstTokenIndex = $phpcsFile->findFirstOnLine([T_WHITESPACE], $firstLineTokenIndex, true);
 
             return $statementFirstTokenIndex;
         }
@@ -179,7 +179,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
     private function findNextStatementStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         return $phpcsFile->findNext(
-            array(
+            [
                 T_WHITESPACE,
                 T_COMMENT,
                 T_DOC_COMMENT,
@@ -189,7 +189,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                 T_DOC_COMMENT_OPEN_TAG,
                 T_DOC_COMMENT_CLOSE_TAG,
                 T_DOC_COMMENT_STRING
-            ),
+            ],
             $stackPtr,
             null,
             true);

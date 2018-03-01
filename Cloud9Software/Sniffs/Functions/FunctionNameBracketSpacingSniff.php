@@ -5,16 +5,16 @@ class Cloud9Software_Sniffs_Functions_FunctionNameBracketSpacingSniff implements
     
     public function register()
     {
-        return array(
+        return [
             T_FUNCTION
-        );
+        ];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         
-        $openingParenIndex = $phpcsFile->findNext(array(T_OPEN_PARENTHESIS), $stackPtr);
+        $openingParenIndex = $phpcsFile->findNext([T_OPEN_PARENTHESIS], $stackPtr);
         
         if ($openingParenIndex) {
             $previousToken = $tokens[$openingParenIndex - 1];

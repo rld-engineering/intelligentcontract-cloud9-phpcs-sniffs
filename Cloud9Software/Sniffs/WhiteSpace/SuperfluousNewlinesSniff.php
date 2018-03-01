@@ -6,10 +6,10 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
     
     public function register()
     {
-        return array(
+        return [
             T_OPEN_CURLY_BRACKET,
             T_CLOSE_CURLY_BRACKET
-        );
+        ];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
@@ -19,9 +19,9 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
         $currentToken = $tokens[$stackPtr];
         
         if ($currentToken['code'] == T_OPEN_CURLY_BRACKET) {
-            $nextNonWhitespaceIndex = $phpcsFile->findNext(array(T_WHITESPACE), $stackPtr + 1, null, true);
+            $nextNonWhitespaceIndex = $phpcsFile->findNext([T_WHITESPACE], $stackPtr + 1, null, true);
         } else {
-            $nextNonWhitespaceIndex = $phpcsFile->findPrevious(array(T_WHITESPACE), $stackPtr - 1, null, true);
+            $nextNonWhitespaceIndex = $phpcsFile->findPrevious([T_WHITESPACE], $stackPtr - 1, null, true);
         }
         
         if ($this->tokenIndexIsInsideFunction($phpcsFile, $nextNonWhitespaceIndex)) {
@@ -41,11 +41,11 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
         $tokens = $phpcsFile->getTokens();
         
         $tokenIndex = $phpcsFile->findPrevious(
-            array(
+            [
                 T_FUNCTION,
                 T_CLOSE_CURLY_BRACKET,
                 T_OPEN_CURLY_BRACKET
-            ),
+            ],
             $index);
         
         $bracketCount = 0;
@@ -67,11 +67,11 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
             }
 
             $tokenIndex = $phpcsFile->findPrevious(
-                array(
+                [
                     T_FUNCTION,
                     T_CLOSE_CURLY_BRACKET,
                     T_OPEN_CURLY_BRACKET
-                ),
+                ],
                 $tokenIndex - 1);
         }
         

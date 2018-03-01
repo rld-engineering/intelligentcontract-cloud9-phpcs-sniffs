@@ -5,9 +5,9 @@ class Cloud9Software_Sniffs_Functions_FunctionCallClosingBracketSniff implements
     
     public function register()
     {
-        return array(
+        return [
             T_OBJECT_OPERATOR
-        );
+        ];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)

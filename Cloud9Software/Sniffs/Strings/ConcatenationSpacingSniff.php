@@ -9,7 +9,7 @@ class Cloud9Software_Sniffs_Strings_ConcatenationSpacingSniff
     
     public function register()
     {
-        return array(T_STRING_CONCAT);
+        return [T_STRING_CONCAT];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)

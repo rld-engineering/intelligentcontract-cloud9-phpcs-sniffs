@@ -5,13 +5,13 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
     
     public function register()
     {
-        return array(
+        return [
             T_IF,
             T_WHILE,
             T_FOR,
             T_FOREACH,
             T_ELSEIF
-        );
+        ];
     }
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
@@ -29,7 +29,7 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
                  * there shouldn't be anything else before the paren on the line
                  */
                 $previousTokenIndex = $phpcsFile->findPrevious(
-                    array(T_WHITESPACE),
+                    [T_WHITESPACE],
                     $closingParenIndex - 1,
                     null,
                     true);
@@ -46,10 +46,10 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
     private function getClosingParenIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $searchTokens = array(
+        $searchTokens = [
             T_OPEN_PARENTHESIS,
             T_CLOSE_PARENTHESIS
-        );
+        ];
         
         $nextParenIndex = $phpcsFile->findNext($searchTokens, $stackPtr + 1);
         $parenCount = 0;

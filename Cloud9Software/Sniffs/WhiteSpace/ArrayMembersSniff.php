@@ -6,7 +6,7 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     
     public function register()
     {
-        return array(T_ARRAY);
+        return [T_ARRAY];
     }
     
     /**
@@ -20,7 +20,7 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
         $tokens = $phpcsFile->getTokens();
         
         $nextArrayMemberIndex = $phpcsFile->findNext(
-            array(T_WHITESPACE),
+            [T_WHITESPACE],
             $firstMemberTokenIndex + 1,
             null,
             true);
@@ -54,7 +54,7 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     private function checkClosingParenIsOnItsOwnLine(PHP_CodeSniffer_File $phpcsFile, $arrayDeclarationCloseIndex)
     {
         $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
-            array(T_WHITESPACE),
+            [T_WHITESPACE],
             $arrayDeclarationCloseIndex,
             true);
         $isClosingParenOnItsOwnLine = $firstTokenOnLastLineIndex == $arrayDeclarationCloseIndex;
@@ -71,7 +71,7 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $arrayDeclarationOpenIndex = $phpcsFile->findNext(array(T_WHITESPACE), $stackPtr + 1, null, true);
+        $arrayDeclarationOpenIndex = $phpcsFile->findNext([T_WHITESPACE], $stackPtr + 1, null, true);
         
         if (!$arrayDeclarationOpenIndex) {
             return;
@@ -114,18 +114,18 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
         $tokens = $phpcsFile->getTokens();
         
         $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
-            array(T_WHITESPACE),
+            [T_WHITESPACE],
             $arrayDeclarationLineStartIndex,
             true);
         
         $firstMemberTokenIndex = $phpcsFile->findNext(
-            array(T_WHITESPACE),
+            [T_WHITESPACE],
             $arrayDeclarationLineStartIndex + 1,
             null,
             true);
         
         $nextArrayMemberIndex = $phpcsFile->findNext(
-            array(T_WHITESPACE),
+            [T_WHITESPACE],
             $firstMemberTokenIndex + 1,
             null,
             true);
@@ -158,11 +158,11 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
      */
     private function getNextArrayMemberIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokensToScanFor = array(
+        $tokensToScanFor = [
             T_OPEN_PARENTHESIS,
             T_CLOSE_PARENTHESIS,
             T_COMMA
-        );
+        ];
         
         $nextCommaOrParenthesisIndex = $phpcsFile->findNext(
             $tokensToScanFor,
@@ -177,7 +177,7 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
                 case T_COMMA:
                     $weAreNotInANestedStructure = !$parenCount;
                     if ($weAreNotInANestedStructure) {
-                        return $phpcsFile->findNext(array(T_WHITESPACE), $nextCommaOrParenthesisIndex + 1, null, true);
+                        return $phpcsFile->findNext([T_WHITESPACE], $nextCommaOrParenthesisIndex + 1, null, true);
                     }
                     break;
                 case T_OPEN_PARENTHESIS:
@@ -212,7 +212,7 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
         
         $openParenCount = 0;
         
-        $tokenTypesToScanFor = array(T_CLOSE_PARENTHESIS, T_OPEN_PARENTHESIS);
+        $tokenTypesToScanFor = [T_CLOSE_PARENTHESIS, T_OPEN_PARENTHESIS];
         
         $nextParenTokenIndex = $phpcsFile->findNext(
             $tokenTypesToScanFor,
