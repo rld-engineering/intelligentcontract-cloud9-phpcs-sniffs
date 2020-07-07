@@ -1,7 +1,7 @@
 <?php
 
 class Cloud9Software_Sniffs_ControlStructures_SwitchParenSpaceSniff
-    extends PHP_CodeSniffer_Standards_AbstractPatternSniff
+    extends PHP_CodeSniffer\Sniffs\AbstractPatternSniff
 {
     
     public $ignoreComments = true;
