@@ -1,7 +1,7 @@
 <?php
 
 class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
-    implements PHP_CodeSniffer_Sniff
+    implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
     public function register()
@@ -11,12 +11,14 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $firstMemberTokenIndex
      * @return void
      */
-    private function checkArrayMembersAreSeparatedByWhiteSpace(PHP_CodeSniffer_File $phpcsFile, $firstMemberTokenIndex)
-    {
+    private function checkArrayMembersAreSeparatedByWhiteSpace(
+        \PHP_CodeSniffer\Files\File $phpcsFile,
+        $firstMemberTokenIndex
+    ) {
         $tokens = $phpcsFile->getTokens();
         
         $nextArrayMemberIndex = $phpcsFile->findNext(
@@ -47,12 +49,14 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $arrayDeclarationCloseIndex
      * @return bool
      */
-    private function checkClosingParenIsOnItsOwnLine(PHP_CodeSniffer_File $phpcsFile, $arrayDeclarationCloseIndex)
-    {
+    private function checkClosingParenIsOnItsOwnLine(
+        \PHP_CodeSniffer\Files\File $phpcsFile,
+        $arrayDeclarationCloseIndex
+    ) {
         $firstTokenOnLastLineIndex = $phpcsFile->findFirstOnLine(
             [T_WHITESPACE],
             $arrayDeclarationCloseIndex,
@@ -69,7 +73,7 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
         return true;
     }
     
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $arrayDeclarationOpenIndex = $phpcsFile->findNext([T_WHITESPACE], $stackPtr + 1, null, true);
         
@@ -103,12 +107,12 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $arrayDeclarationLineStartIndex
      * @return void
      */
     private function checkMultiLineArrayIndents(
-        PHP_CodeSniffer_File $phpcsFile,
+        \PHP_CodeSniffer\Files\File $phpcsFile,
         $arrayDeclarationLineStartIndex
     ) {
         $tokens = $phpcsFile->getTokens();
@@ -152,11 +156,11 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return int
      */
-    private function getNextArrayMemberIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getNextArrayMemberIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokensToScanFor = [
             T_OPEN_PARENTHESIS,
@@ -202,11 +206,11 @@ class Cloud9Software_Sniffs_Whitespace_ArrayMembersSniff
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return int
      */
-    private function getArrayDeclarationCloseIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getArrayDeclarationCloseIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         

@@ -1,6 +1,6 @@
 <?php
 
-class Cloud9Software_Sniffs_Functions_FunctionNameBracketSpacingSniff implements PHP_CodeSniffer_Sniff
+class Cloud9Software_Sniffs_Functions_FunctionNameBracketSpacingSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
     public function register()
@@ -10,7 +10,7 @@ class Cloud9Software_Sniffs_Functions_FunctionNameBracketSpacingSniff implements
         ];
     }
     
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         

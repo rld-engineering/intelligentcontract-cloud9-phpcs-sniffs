@@ -1,7 +1,7 @@
 <?php
 
 class Cloud9Software_Sniffs_Strings_ConcatenationSpacingSniff
-    implements PHP_CodeSniffer_Sniff
+    implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
     const ADJACENT_BEFORE = 'before';
@@ -12,7 +12,7 @@ class Cloud9Software_Sniffs_Strings_ConcatenationSpacingSniff
         return [T_STRING_CONCAT];
     }
     
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         

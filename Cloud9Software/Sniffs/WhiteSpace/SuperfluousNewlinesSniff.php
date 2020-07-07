@@ -1,7 +1,7 @@
 <?php
 
 class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
-    implements PHP_CodeSniffer_Sniff
+    implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
     public function register()
@@ -12,7 +12,7 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
         ];
     }
     
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         
@@ -36,7 +36,7 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
         }
     }
     
-    private function tokenIndexIsInsideFunction(PHP_CodeSniffer_File $phpcsFile, $index)
+    private function tokenIndexIsInsideFunction(\PHP_CodeSniffer\Files\File $phpcsFile, $index)
     {
         $tokens = $phpcsFile->getTokens();
         

@@ -1,6 +1,6 @@
 <?php
 
-class Cloud9Software_Sniffs_Functions_FunctionCallClosingBracketSniff implements PHP_CodeSniffer_Sniff
+class Cloud9Software_Sniffs_Functions_FunctionCallClosingBracketSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
     public function register()
@@ -10,7 +10,7 @@ class Cloud9Software_Sniffs_Functions_FunctionCallClosingBracketSniff implements
         ];
     }
     
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         if (!$this->isThisAMethodCall($phpcsFile, $stackPtr)) {
             return;
@@ -40,11 +40,11 @@ class Cloud9Software_Sniffs_Functions_FunctionCallClosingBracketSniff implements
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return bool
      */
-    private function isThisAMethodCall(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function isThisAMethodCall(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         $methodNameTokenIndex = $phpcsFile->findNext(
@@ -64,11 +64,11 @@ class Cloud9Software_Sniffs_Functions_FunctionCallClosingBracketSniff implements
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return int
      */
-    private function getMethodCallClosingParenIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getMethodCallClosingParenIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         

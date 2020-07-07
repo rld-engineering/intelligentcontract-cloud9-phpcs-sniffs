@@ -1,7 +1,7 @@
 <?php
 
 class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
-    implements PHP_CodeSniffer_Sniff
+    implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
     public function register()
@@ -18,7 +18,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
         ];
     }
     
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         
@@ -51,11 +51,11 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return int
      */
-    private function getFirstTokenInStatementIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getFirstTokenInStatementIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $previousPossibleStartIndex = $stackPtr;
         $tokens = $phpcsFile->getTokens();
@@ -172,11 +172,11 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
     
     /**
      * 
-     * @param PHP_CodeSniffer_File $phpcsFile
+     * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return array
      */
-    private function findNextStatementStartIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function findNextStatementStartIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         return $phpcsFile->findNext(
             [

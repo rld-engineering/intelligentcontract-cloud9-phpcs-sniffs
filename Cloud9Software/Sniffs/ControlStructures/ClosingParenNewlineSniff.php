@@ -1,6 +1,6 @@
 <?php
 
-class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implements PHP_CodeSniffer_Sniff
+class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
     public function register()
@@ -14,7 +14,7 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
         ];
     }
     
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         
@@ -43,7 +43,7 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
         }
     }
     
-    private function getClosingParenIndex(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    private function getClosingParenIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         $searchTokens = [
