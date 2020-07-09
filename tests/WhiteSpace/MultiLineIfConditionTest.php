@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class WhiteSpace_MultiLineIfConditionTest extends TestCase
+class MultiLineIfConditionTest extends TestCase
 {
     
     public function setUp()

@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class ControlStructures_SwitchParenSpaceTest extends TestCase
+class SwitchParenSpaceTest extends TestCase
 {
     
     public function setUp()

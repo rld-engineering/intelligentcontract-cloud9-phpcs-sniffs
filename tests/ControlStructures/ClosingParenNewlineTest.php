@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class ControlStructures_ClosingParenNewlineTest extends TestCase
+class ClosingParenNewlineTest extends TestCase
 {
     
     public function setUp()

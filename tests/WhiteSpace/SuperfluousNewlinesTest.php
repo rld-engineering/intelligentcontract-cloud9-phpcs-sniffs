@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class WhiteSpace_SuperfluousNewlinesTest extends TestCase
+class SuperfluousNewlinesTest extends TestCase
 {
     
     public function setUp()

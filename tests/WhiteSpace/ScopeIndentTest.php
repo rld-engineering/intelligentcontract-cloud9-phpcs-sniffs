@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class WhiteSpace_ScopeIndentTest extends TestCase
+class ScopeIndentTest extends TestCase
 {
     
     public function setUp()

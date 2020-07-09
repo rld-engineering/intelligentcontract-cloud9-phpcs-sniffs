@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class Functions_FunctionNameBracketSpacingTest extends TestCase
+class FunctionNameBracketSpacingTest extends TestCase
 {
     
     public function setUp()

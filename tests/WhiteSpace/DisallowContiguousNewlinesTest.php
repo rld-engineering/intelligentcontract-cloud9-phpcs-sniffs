@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class WhiteSpace_DisallowContiguousNewlinesTest extends TestCase
+class DisallowContiguousNewlinesTest extends TestCase
 {
     
     public function setUp()

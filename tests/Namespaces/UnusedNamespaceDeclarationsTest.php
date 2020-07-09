@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class Namespaces_UnusedNamespaceDeclarationsTest extends TestCase
+class UnusedNamespaceDeclarationsTest extends TestCase
 {
     
     public function setUp()

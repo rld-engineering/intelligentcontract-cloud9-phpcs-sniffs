@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class Functions_FunctionCallClosingBracketTest extends TestCase
+class FunctionCallClosingBracketTest extends TestCase
 {
     
     public function setUp()

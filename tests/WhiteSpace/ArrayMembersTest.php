@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class WhiteSpace_ArrayMembersTest extends TestCase
+class ArrayMembersTest extends TestCase
 {
     
     public function setUp()

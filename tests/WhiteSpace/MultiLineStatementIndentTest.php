@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class WhiteSpace_MultiLineStatementIndentTest extends TestCase
+class MultiLineStatementIndentTest extends TestCase
 {
     
     public function setUp()

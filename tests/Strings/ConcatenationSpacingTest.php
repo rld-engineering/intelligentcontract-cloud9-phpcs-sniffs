@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class Strings_ConcatenationSpacingTest extends TestCase
+class ConcatenationSpacingTest extends TestCase
 {
     
     public function setUp()

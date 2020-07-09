@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../TestCase.php';
 
-class WhiteSpace_IfStatementSpacingTest extends TestCase
+class IfStatementSpacingTest extends TestCase
 {
     
     public function setUp()
