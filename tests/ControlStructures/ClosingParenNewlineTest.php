@@ -5,7 +5,7 @@ require_once __DIR__ . '/../TestCase.php';
 class ClosingParenNewlineTest extends TestCase
 {
     
-    public function setUp()
+    public function setUp(): void
     {
         $this->sniffName = 'Cloud9Software.ControlStructures.ClosingParenNewline';
     }
