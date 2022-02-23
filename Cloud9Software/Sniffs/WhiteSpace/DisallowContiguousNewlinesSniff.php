@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
  * This is different from the Squiz superfluous whitespace sniff in that it detects contiguous newlines outside
  * of functions as well as inside them

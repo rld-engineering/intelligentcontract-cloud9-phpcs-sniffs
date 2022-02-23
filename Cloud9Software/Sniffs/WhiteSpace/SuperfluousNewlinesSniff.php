@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 class Cloud9Software_Sniffs_Strings_ConcatenationSpacingSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {

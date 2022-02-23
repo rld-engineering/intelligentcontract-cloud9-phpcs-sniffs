@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
     
@@ -37,7 +39,8 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
                     $phpcsFile->addError(
                         'Closing parenthesis and "{" of a multi-line control structure expression '
                         . 'should be on their own line',
-                        $stackPtr);
+                        $stackPtr,
+                        'ClosingParenNotOnNewLine');
                 }
             }
         }

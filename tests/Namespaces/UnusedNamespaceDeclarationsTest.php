@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
+namespace Cloud9Software\Sniffs\Namespaces;
+
+use Cloud9Software\Sniffs\TestCase;
+
 require_once __DIR__ . '/../TestCase.php';
 
 class UnusedNamespaceDeclarationsTest extends TestCase
 {
-    
-    public function setUp(): void
-    {
-        $this->sniffName = 'Cloud9Software.Namespaces.UnusedNamespaceDeclarations';
-    }
-    
+
     public function sniffProvider()
     {
         return [

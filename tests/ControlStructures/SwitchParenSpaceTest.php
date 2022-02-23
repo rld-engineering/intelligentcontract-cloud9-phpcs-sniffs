@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types = 1);
+
+namespace Cloud9Software\Sniffs\ControlStructures;
+
+use Cloud9Software\Sniffs\TestCase;
+
 require_once __DIR__ . '/../TestCase.php';
 
 class SwitchParenSpaceTest extends TestCase
 {
-    
-    public function setUp(): void
-    {
-        $this->sniffName = 'Cloud9Software.ControlStructures.SwitchParenSpace';
-    }
-    
+
     public function sniffProvider()
     {
         return [
