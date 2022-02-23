@@ -52,7 +52,11 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                             T_VARIABLE,
                             T_DOUBLE_COLON
                         ];
-
+                        $validPrecedingTokenTypes = [
+                            T_COMMA,
+                            T_IMPLEMENTS,
+                            T_NEW
+                        ];
                         if ($nextNonWhitespaceTokenIndex
                             && in_array($tokens[$nextNonWhitespaceTokenIndex]['code'], $validFollowingTokenTypes)
                         ) {
@@ -61,7 +65,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                              */
                             $namespaceIsUsed = true;
                         } elseif ($prevNonWhitespaceTokenIndex
-                            && $tokens[$prevNonWhitespaceTokenIndex]['code'] == T_NEW
+                            && in_array($tokens[$prevNonWhitespaceTokenIndex]['code'], $validPrecedingTokenTypes)
                         ) {
                             /**
                              * alias is used in a "new ClassName()" type statement
