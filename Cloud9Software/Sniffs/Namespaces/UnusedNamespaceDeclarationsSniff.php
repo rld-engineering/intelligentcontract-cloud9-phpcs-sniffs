@@ -49,10 +49,12 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                             true);
 
                         $validFollowingTokenTypes = [
+                            T_CURLY_OPEN,
                             T_VARIABLE,
                             T_DOUBLE_COLON
                         ];
                         $validPrecedingTokenTypes = [
+                            T_COLON,
                             T_COMMA,
                             T_IMPLEMENTS,
                             T_NEW
