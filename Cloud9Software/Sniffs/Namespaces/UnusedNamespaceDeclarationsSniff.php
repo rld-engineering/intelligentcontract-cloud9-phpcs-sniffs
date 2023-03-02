@@ -57,6 +57,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                             T_COLON,
                             T_COMMA,
                             T_IMPLEMENTS,
+                            T_EXTENDS,
                             T_NEW
                         ];
                         if ($nextNonWhitespaceTokenIndex
