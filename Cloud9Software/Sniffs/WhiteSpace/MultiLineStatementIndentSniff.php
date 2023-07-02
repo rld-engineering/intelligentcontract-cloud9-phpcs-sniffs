@@ -131,11 +131,22 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                 } elseif ($previousPossibleCode == T_OPEN_CURLY_BRACKET) {
                     /**
                      * open curly bracket found - this must be the beginning of the method our token's statement
-                     * is in
+                     * is in OR a match statement
                      */
-                    $firstLineTokenIndex = $this->findNextStatementStartIndex(
-                        $phpcsFile,
-                        $previousPossibleStartIndex + 1);
+                    $preCurlyBracketTokenIndex = $phpcsFile->findPrevious(
+                        [
+                            T_MATCH,
+                            T_FUNCTION
+                        ],
+                        $previousPossibleStartIndex - 1);
+                    $preCurlyBracketToken = $tokens[$preCurlyBracketTokenIndex];
+                    if ($preCurlyBracketToken['code'] == T_FUNCTION) {
+                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
+                            $phpcsFile,
+                            $previousPossibleStartIndex + 1);
+                    } else {
+                        return $this->getFirstTokenInStatementIndex($phpcsFile, $previousPossibleStartIndex);
+                    }
                 } elseif ($previousPossibleCode == T_COMMA) {
                     $lastTokenFoundWasComma = true;
                     $commaEncountered = true;

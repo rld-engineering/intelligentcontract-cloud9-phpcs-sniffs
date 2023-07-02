@@ -14,6 +14,10 @@ class MultiLineStatementIndentTest extends TestCase
     public function sniffProvider()
     {
         return [
+            'match' => [
+                'match',
+                []
+            ],
             'empty method' => ['empty-method', []],
             'two statements' => ['two-statements', []],
             'use operator' => ['use-operator', []],
