@@ -136,11 +136,12 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     $preCurlyBracketTokenIndex = $phpcsFile->findPrevious(
                         [
                             T_MATCH,
-                            T_FUNCTION
+                            T_FUNCTION,
+                            T_CLOSURE
                         ],
                         $previousPossibleStartIndex - 1);
                     $preCurlyBracketToken = $tokens[$preCurlyBracketTokenIndex];
-                    if ($preCurlyBracketToken['code'] == T_FUNCTION) {
+                    if (in_array($preCurlyBracketToken['code'], [T_CLOSURE, T_FUNCTION])) {
                         $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
