@@ -20,6 +20,10 @@ class ScopeIndentTest extends TestCase
             'multi line for' => ['multi-line-for', []],
             'object operator' => ['object-operator', []],
             'switch statement' => ['switch-statement', []],
+            'match statement' => [
+                'match-statement',
+                []
+            ],
             'structure followed by statemment' => ['structure-then-statement', []],
             'empty method' => ['empty-method', []],
             'scope incorrect indent' => [
