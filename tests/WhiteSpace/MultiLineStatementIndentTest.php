@@ -37,6 +37,10 @@ class MultiLineStatementIndentTest extends TestCase
                 'method-call-arg-nested-parens',
                 []
             ],
+            'chained call in arrow function' => [
+                'arrow-function-chained-call',
+                []
+            ],
             'indent too big' => [
                 'indent-too-big',
                 [

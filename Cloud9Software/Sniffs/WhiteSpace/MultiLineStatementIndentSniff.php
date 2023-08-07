@@ -71,6 +71,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
         while ($previousPossibleStartIndex !== false && $firstLineTokenIndex === false) {
             $previousPossibleStartIndex = $phpcsFile->findPrevious(
                 [
+                    T_FN,
                     T_OPEN_CURLY_BRACKET,
                     T_CLOSE_CURLY_BRACKET,
                     T_SEMICOLON,
@@ -112,6 +113,10 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                             $firstLineTokenIndex = $previousPossibleStartIndex;
                         }
                     }
+                } elseif ($previousPossibleCode == T_FN) {
+                    if (!$commaEncountered) {
+                        $firstLineTokenIndex = $previousPossibleStartIndex;
+                    }
                 } elseif ($previousPossibleCode == T_CLOSE_CURLY_BRACKET) {
                     if ($lastTokenFoundWasComma || $lastTokenFoundWasCloseParenthesis) {
                         /**
@@ -149,8 +154,17 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         return $this->getFirstTokenInStatementIndex($phpcsFile, $previousPossibleStartIndex);
                     }
                 } elseif ($previousPossibleCode == T_COMMA) {
-                    $lastTokenFoundWasComma = true;
-                    $commaEncountered = true;
+                    /**
+                     * we've encountered a comma which must be separating our statement from a previous statement
+                     * e.g. where our token's statement is an argument in a method call, and we've now reached
+                     * a previous arg in the same method call. however, if we've encountered a ")" and are currently
+                     * in some parens then we must be in a set of args for a param call that constitutes one of this
+                     * method's args, so we just want to skip over it
+                     */
+                    if (!$parenCount) {
+                        $lastTokenFoundWasComma = true;
+                        $commaEncountered = true;
+                    }
                 } elseif ($previousPossibleCode == T_OBJECT_OPERATOR) {
                     if (!$commaEncountered) {
                         $objectOperatorEncountered = true;
