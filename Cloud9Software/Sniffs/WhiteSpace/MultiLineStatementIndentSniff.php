@@ -114,7 +114,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         }
                     }
                 } elseif ($previousPossibleCode == T_FN) {
-                    if (!$commaEncountered) {
+                    if (!$parenCount && !$commaEncountered) {
                         $firstLineTokenIndex = $previousPossibleStartIndex;
                     }
                 } elseif ($previousPossibleCode == T_CLOSE_CURLY_BRACKET) {
