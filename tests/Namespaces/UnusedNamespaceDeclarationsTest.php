@@ -17,6 +17,10 @@ class UnusedNamespaceDeclarationsTest extends TestCase
             'return type' => ['return-type', []],
             'implements' => ['implements', []],
             'extends' => ['extends', []],
+            'used as nullable' => [
+                'used-as-nullable',
+                []
+            ],
             'used namespace' => ['used-namespace', []],
             'closure use statement' => ['closure-use', []],
             'trait use statement' => ['trait', []],

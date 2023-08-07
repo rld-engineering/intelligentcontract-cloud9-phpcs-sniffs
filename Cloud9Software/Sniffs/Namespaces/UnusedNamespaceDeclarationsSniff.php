@@ -74,6 +74,11 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                              * alias is used in a "new ClassName()" type statement
                              */
                             $namespaceIsUsed = true;
+                        } elseif ($tokens[$nextNonWhitespaceTokenIndex]['code'] === T_NS_SEPARATOR) {
+                            /**
+                             * alias is to a namespace under which a class is being referenced
+                             */
+                             $namespaceIsUsed = true;
                         }
                     }
 
