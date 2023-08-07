@@ -14,7 +14,6 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        
         if ($this->isUseDeclaration($phpcsFile, $stackPtr)) {
             $endOfDeclarationIndex = $phpcsFile->findNext([T_COMMA, T_SEMICOLON], $stackPtr + 1);
             
@@ -54,6 +53,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                             T_DOUBLE_COLON
                         ];
                         $validPrecedingTokenTypes = [
+                            T_NULLABLE,
                             T_COLON,
                             T_COMMA,
                             T_IMPLEMENTS,

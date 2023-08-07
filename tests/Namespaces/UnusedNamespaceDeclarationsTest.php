@@ -15,6 +15,7 @@ class UnusedNamespaceDeclarationsTest extends TestCase
     {
         return [
             'return type' => ['return-type', []],
+            'nullable return type' => ['nullable-return-type', []],
             'implements' => ['implements', []],
             'extends' => ['extends', []],
             'used as nullable' => [
