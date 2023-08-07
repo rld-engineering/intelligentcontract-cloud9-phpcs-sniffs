@@ -67,7 +67,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
         $lastTokenFoundWasCloseParenthesis = false;
         $commaEncountered = false;
         $objectOperatorEncountered = false;
-        
+
         while ($previousPossibleStartIndex !== false && $firstLineTokenIndex === false) {
             $previousPossibleStartIndex = $phpcsFile->findPrevious(
                 [
@@ -118,40 +118,44 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         $firstLineTokenIndex = $previousPossibleStartIndex;
                     }
                 } elseif ($previousPossibleCode == T_CLOSE_CURLY_BRACKET) {
-                    if ($lastTokenFoundWasComma || $lastTokenFoundWasCloseParenthesis) {
-                        /**
-                         * this is the closing curly brace of a closure param in a method call
-                         */
-                        $previousPossibleStartIndex = $phpcsFile->findPrevious(
-                            T_CLOSURE,
-                            $previousPossibleStartIndex - 1);
-                    } else {
-                        /**
-                         * this is the closing curly brace of a control structure
-                         */
-                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
-                            $phpcsFile,
-                            $previousPossibleStartIndex + 1);
+                    if (!$parenCount) {
+                        if ($lastTokenFoundWasComma || $lastTokenFoundWasCloseParenthesis) {
+                            /**
+                             * this is the closing curly brace of a closure param in a method call
+                             */
+                            $previousPossibleStartIndex = $phpcsFile->findPrevious(
+                                T_CLOSURE,
+                                $previousPossibleStartIndex - 1);
+                        } else {
+                            /**
+                             * this is the closing curly brace of a control structure
+                             */
+                            $firstLineTokenIndex = $this->findNextStatementStartIndex(
+                                $phpcsFile,
+                                $previousPossibleStartIndex + 1);
+                        }
                     }
                 } elseif ($previousPossibleCode == T_OPEN_CURLY_BRACKET) {
-                    /**
-                     * open curly bracket found - this must be the beginning of the method our token's statement
-                     * is in OR a match statement
-                     */
-                    $preCurlyBracketTokenIndex = $phpcsFile->findPrevious(
-                        [
-                            T_MATCH,
-                            T_FUNCTION,
-                            T_CLOSURE
-                        ],
-                        $previousPossibleStartIndex - 1);
-                    $preCurlyBracketToken = $tokens[$preCurlyBracketTokenIndex];
-                    if (in_array($preCurlyBracketToken['code'], [T_CLOSURE, T_FUNCTION])) {
-                        $firstLineTokenIndex = $this->findNextStatementStartIndex(
-                            $phpcsFile,
-                            $previousPossibleStartIndex + 1);
-                    } else {
-                        return $this->getFirstTokenInStatementIndex($phpcsFile, $previousPossibleStartIndex);
+                    if (!$parenCount) {
+                        /**
+                         * open curly bracket found - this must be the beginning of the method our token's statement
+                         * is in OR a match statement
+                         */
+                        $preCurlyBracketTokenIndex = $phpcsFile->findPrevious(
+                            [
+                                T_MATCH,
+                                T_FUNCTION,
+                                T_CLOSURE
+                            ],
+                            $previousPossibleStartIndex - 1);
+                        $preCurlyBracketToken = $tokens[$preCurlyBracketTokenIndex];
+                        if (in_array($preCurlyBracketToken['code'], [T_CLOSURE, T_FUNCTION])) {
+                            $firstLineTokenIndex = $this->findNextStatementStartIndex(
+                                $phpcsFile,
+                                $previousPossibleStartIndex + 1);
+                        } else {
+                            return $this->getFirstTokenInStatementIndex($phpcsFile, $previousPossibleStartIndex);
+                        }
                     }
                 } elseif ($previousPossibleCode == T_COMMA) {
                     /**
