@@ -14,6 +14,7 @@ class UnusedNamespaceDeclarationsTest extends TestCase
     public function sniffProvider()
     {
         return [
+            'instanceof' => ['instanceof', []],
             'return type' => ['return-type', []],
             'nullable return type' => ['nullable-return-type', []],
             'implements' => ['implements', []],
