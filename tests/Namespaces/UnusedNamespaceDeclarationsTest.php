@@ -26,6 +26,7 @@ class UnusedNamespaceDeclarationsTest extends TestCase
             'used namespace' => ['used-namespace', []],
             'closure use statement' => ['closure-use', []],
             'trait use statement' => ['trait', []],
+            'aliased trait from use statement' => ['aliased-trait', []],
             'new statement' => ['new-statement', []],
             'multiple used namespaces' => ['multi-namespaces', []],
             'unused namespace' => [
