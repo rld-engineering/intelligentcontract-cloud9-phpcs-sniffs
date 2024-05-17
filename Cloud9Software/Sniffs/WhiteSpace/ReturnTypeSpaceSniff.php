@@ -38,7 +38,7 @@ final readonly class Cloud9Software_Sniffs_Whitespace_ReturnTypeSpaceSniff imple
         if (!$nextToken) {
             return;
         }
-        if ($nextToken['content'] === " ") {
+        if (in_array($nextToken['content'], [" ", "\n", "\r"])) {
             return;
         }
         $phpcsFile->addError(

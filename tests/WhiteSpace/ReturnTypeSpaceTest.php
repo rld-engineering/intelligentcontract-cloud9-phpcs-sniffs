@@ -14,6 +14,10 @@ class ReturnTypeSpaceTest extends TestCase
     public function sniffProvider()
     {
         return [
+            'newline before type' => [
+                'newline-before-type',
+                []
+            ],
             'correct spacing' => [
                 'space-before-type',
                 []
