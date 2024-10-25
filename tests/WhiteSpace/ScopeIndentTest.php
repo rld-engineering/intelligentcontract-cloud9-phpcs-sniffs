@@ -24,6 +24,10 @@ class ScopeIndentTest extends TestCase
                 'match-statement',
                 []
             ],
+            'match following arrow function' => [
+                'match-following-arrow-function',
+                []
+            ],
             'structure followed by statemment' => ['structure-then-statement', []],
             'empty method' => ['empty-method', []],
             'scope incorrect indent' => [

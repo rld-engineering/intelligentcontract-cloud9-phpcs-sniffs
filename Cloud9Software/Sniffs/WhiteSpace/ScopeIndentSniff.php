@@ -71,14 +71,14 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
                     T_FOR,
                     T_FOREACH,
                     T_DO,
-                    T_FUNCTION,
                     T_FN,
                     T_WHILE,
                     T_TRY,
                     T_OPEN_PARENTHESIS,
                     T_CLOSE_PARENTHESIS,
                     T_FUNCTION,
-                    T_CLOSURE
+                    T_CLOSURE,
+                    T_MATCH
                 ],
                 $previousPossibleStartIndex - 1);
             
