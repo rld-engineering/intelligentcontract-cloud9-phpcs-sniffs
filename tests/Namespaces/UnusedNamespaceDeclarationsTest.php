@@ -11,9 +11,13 @@ require_once __DIR__ . '/../TestCase.php';
 class UnusedNamespaceDeclarationsTest extends TestCase
 {
 
-    public function sniffProvider()
+    public static function sniffProvider()
     {
         return [
+            'attribute' => [
+                'attribute',
+                []
+            ],
             'instanceof' => ['instanceof', []],
             'return type' => ['return-type', []],
             'nullable return type' => ['nullable-return-type', []],

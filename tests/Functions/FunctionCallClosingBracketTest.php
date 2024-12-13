@@ -11,7 +11,7 @@ require_once __DIR__ . '/../TestCase.php';
 class FunctionCallClosingBracketTest extends TestCase
 {
 
-    public function sniffProvider()
+    public static function sniffProvider()
     {
         return [
             'single line call' => ['single-line', []],

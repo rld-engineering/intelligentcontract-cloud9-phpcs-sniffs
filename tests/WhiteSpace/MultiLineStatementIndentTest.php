@@ -11,7 +11,7 @@ require_once __DIR__ . '/../TestCase.php';
 class MultiLineStatementIndentTest extends TestCase
 {
     
-    public function sniffProvider()
+    public static function sniffProvider()
     {
         return [
             'arrow function as arg' => [

@@ -11,7 +11,7 @@ require_once __DIR__ . '/../TestCase.php';
 class IfStatementSpacingTest extends TestCase
 {
     
-    public function sniffProvider()
+    public static function sniffProvider()
     {
         return [
             'single arg, correct spacing' => ['correct-spacing', []],

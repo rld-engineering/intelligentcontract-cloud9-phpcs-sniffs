@@ -6,6 +6,8 @@ namespace Cloud9Software\Sniffs;
 
 require_once __DIR__ . '/TestConfiguration.php';
 
+use PHPUnit\Framework\Attributes\DataProvider;
+
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     
@@ -61,9 +63,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return $this->testNamespace() . '/' . $this->classNameWithoutTest() . 'Sniff.php';
     }
 
-    /**
-     * @dataProvider sniffProvider
-     */
+    #[DataProvider('sniffProvider')]
     public function testSniff($fileName, $expectedErrors)
     {
         $sniffFiles = [

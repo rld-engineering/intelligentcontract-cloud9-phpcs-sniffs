@@ -53,6 +53,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                             T_DOUBLE_COLON
                         ];
                         $validPrecedingTokenTypes = [
+                            T_ATTRIBUTE,
                             T_USE,
                             T_INSTANCEOF,
                             T_NULLABLE,

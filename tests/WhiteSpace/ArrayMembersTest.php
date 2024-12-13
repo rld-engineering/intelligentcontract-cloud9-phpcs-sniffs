@@ -11,7 +11,7 @@ require_once __DIR__ . '/../TestCase.php';
 class ArrayMembersTest extends TestCase
 {
 
-    public function sniffProvider()
+    public static function sniffProvider()
     {
         return [
             'array assignment' => ['array-assignment', []],
