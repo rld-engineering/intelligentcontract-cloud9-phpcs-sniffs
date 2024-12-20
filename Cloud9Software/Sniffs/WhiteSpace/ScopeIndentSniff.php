@@ -111,7 +111,10 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
                              * e.g. where token is:
                              * for ($tokenIsInHere)
                              */
-                            $scopeStartIndex = $previousPossibleStartIndex;
+                            $weAreNestedInSomething = $curlyParenCount > 1;
+                            if (!$weAreNestedInSomething) {
+                                $scopeStartIndex = $previousPossibleStartIndex;
+                            }
                         } elseif (!$curlyParenCount) {
                             $scopeStartIndex = $previousPossibleStartIndex;
                         }

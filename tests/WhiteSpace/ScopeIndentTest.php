@@ -14,6 +14,10 @@ class ScopeIndentTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'return after array_map' => [
+                'return-after-array-map',
+                []
+            ],
             'if, incorrect indent' => [
                 'if-incorrect',
                 [
