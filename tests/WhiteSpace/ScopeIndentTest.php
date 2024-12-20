@@ -14,6 +14,26 @@ class ScopeIndentTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'if, incorrect indent' => [
+                'if-incorrect',
+                [
+                    [
+                        9,
+                        12,
+                        'Indent incorrect; expected 12, found 11'
+                    ]
+                ]
+            ],
+            'single return in method, incorrect' => [
+                'single-line-return-incorrect',
+                [
+                    [
+                        8,
+                        8,
+                        'Indent incorrect; expected 8, found 7'
+                    ]
+                ]
+            ],
             'define' => ['define', []],
             'closure as arg' => ['closure-arg', []],
             'method call as arg' => ['method-call-as-arg', []],

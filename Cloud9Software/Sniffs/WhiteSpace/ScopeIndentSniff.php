@@ -9,7 +9,8 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
     {
         return [
             T_STRING,
-            T_VARIABLE
+            T_VARIABLE,
+            T_RETURN
         ];
     }
     
