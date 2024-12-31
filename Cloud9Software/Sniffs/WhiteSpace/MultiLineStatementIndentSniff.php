@@ -78,7 +78,6 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     T_OPEN_PARENTHESIS,
                     T_CLOSE_PARENTHESIS,
                     T_OPEN_SHORT_ARRAY,
-                    T_COLON,
                     T_COMMA,
                     T_OBJECT_OPERATOR,
                     T_OPEN_SHORT_ARRAY,

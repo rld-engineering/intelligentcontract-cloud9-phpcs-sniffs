@@ -14,6 +14,10 @@ class MultiLineStatementIndentTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'closure with return type' => [
+                'closure-with-return-type',
+                []
+            ],
             'arrow function as arg' => [
                 'arrow-function-as-arg',
                 []
