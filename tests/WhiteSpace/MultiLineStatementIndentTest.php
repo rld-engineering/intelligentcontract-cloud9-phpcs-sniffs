@@ -14,6 +14,10 @@ class MultiLineStatementIndentTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'switch statement' => [
+                'switch-statement',
+                []
+            ],
             'closure with return type' => [
                 'closure-with-return-type',
                 []

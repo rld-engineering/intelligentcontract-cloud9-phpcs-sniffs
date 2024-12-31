@@ -67,7 +67,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
         $lastTokenFoundWasCloseParenthesis = false;
         $commaEncountered = false;
         $objectOperatorEncountered = false;
-
+        $inArrowFunction = false;
         while ($previousPossibleStartIndex !== false && $firstLineTokenIndex === false) {
             $previousPossibleStartIndex = $phpcsFile->findPrevious(
                 [
@@ -78,18 +78,21 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     T_OPEN_PARENTHESIS,
                     T_CLOSE_PARENTHESIS,
                     T_OPEN_SHORT_ARRAY,
+                    T_COLON,
                     T_COMMA,
                     T_OBJECT_OPERATOR,
                     T_OPEN_SHORT_ARRAY,
-                    T_CLOSE_SHORT_ARRAY
+                    T_CLOSE_SHORT_ARRAY,
+                    T_FN_ARROW
                 ],
-                $previousPossibleStartIndex - 1);
-            
+                $previousPossibleStartIndex - 1
+            );
             if ($previousPossibleStartIndex !== false) {
                 $previousPossible = $tokens[$previousPossibleStartIndex];
                 $previousPossibleCode = $previousPossible['code'];
-                
-                if ($previousPossibleCode == T_CLOSE_PARENTHESIS || $previousPossibleCode == T_CLOSE_SHORT_ARRAY) {
+                if ($previousPossibleCode == T_FN_ARROW) {
+                    $inArrowFunction = true;
+                } elseif ($previousPossibleCode == T_CLOSE_PARENTHESIS || $previousPossibleCode == T_CLOSE_SHORT_ARRAY) {
                     $parenCount++;
                     $lastTokenFoundWasCloseParenthesis = true;
                 } elseif ($previousPossibleCode == T_OPEN_PARENTHESIS || $previousPossibleCode == T_OPEN_SHORT_ARRAY) {
@@ -113,6 +116,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         }
                     }
                 } elseif ($previousPossibleCode == T_FN) {
+                    $inArrowFunction = false;
                     if (!$parenCount && !$commaEncountered) {
                         $firstLineTokenIndex = $previousPossibleStartIndex;
                     }
@@ -172,14 +176,13 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     if (!$commaEncountered) {
                         $objectOperatorEncountered = true;
                     }
-                } else {
+                } elseif ($previousPossibleCode != T_COLON || !$inArrowFunction) {
                     if (!$parenCount) {
                         $firstLineTokenIndex = $this->findNextStatementStartIndex(
                             $phpcsFile,
                             $previousPossibleStartIndex + 1);
                     }
                 }
-                
                 if ($previousPossibleCode != T_COMMA) {
                     $lastTokenFoundWasComma = false;
                 }
