@@ -93,7 +93,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                         $alias);
                 }
 
-                if (!$namespaceIsUsed) {
+                if (!$namespaceIsUsed && !$this->isNamespaceUsedInComments($phpcsFile, $alias)) {
                     $phpcsFile->addError("Unused 'use' declaration found", $stackPtr, 'UnusedUse');
                 }
                 
@@ -110,6 +110,19 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                 }
             }
         }
+    }
+    
+    private function isNamespaceUsedInComments(\PHP_CodeSniffer\Files\File $phpcsFile, string $alias): bool
+    {
+        $tokens = $phpcsFile->getTokens();
+        foreach ($tokens as $token) {
+            if ($token['code'] == 'PHPCS_T_DOC_COMMENT_STRING') {
+                if (str_contains($token['content'], $alias)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
     /**

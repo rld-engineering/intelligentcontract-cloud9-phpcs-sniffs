@@ -14,6 +14,10 @@ class UnusedNamespaceDeclarationsTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'used in phpdoc' => [
+                'phpdoc',
+                []
+            ],
             'attribute' => [
                 'attribute',
                 []
