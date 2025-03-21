@@ -14,6 +14,10 @@ class MultiLineStatementIndentTest extends TestCase
     public static function sniffProvider()
     {
         return [
+			'indents outside class body' => [
+				'indents-outside-class-body',
+				[]
+			],
             'switch statement' => [
                 'switch-statement',
                 []
