@@ -14,6 +14,10 @@ class MultiLineStatementIndentTest extends TestCase
     public static function sniffProvider()
     {
         return [
+			'array map with match' => [
+				'array-map-with-match',
+				[]
+			],
 			'indents outside class body' => [
 				'indents-outside-class-body',
 				[]

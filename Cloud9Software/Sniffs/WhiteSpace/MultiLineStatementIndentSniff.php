@@ -55,9 +55,8 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
      * 
      * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
-     * @return int
      */
-    private function getFirstTokenInStatementIndex(\PHP_CodeSniffer\Files\File $phpcsFile, int $stackPtr): int
+    private function getFirstTokenInStatementIndex(\PHP_CodeSniffer\Files\File $phpcsFile, int $stackPtr): int|bool
     {
 		$previousCurlyBracketPosition = $phpcsFile->findPrevious(
 			[
