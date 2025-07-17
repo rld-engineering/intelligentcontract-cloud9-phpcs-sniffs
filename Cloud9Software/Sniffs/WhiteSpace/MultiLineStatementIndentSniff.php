@@ -50,20 +50,24 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             }
         }
     }
-    
-    /**
-     * 
-     * @param \PHP_CodeSniffer\Files\File $phpcsFile
-     * @param int $stackPtr
-     */
+
+    private function previousCurlyBracketPosition(\PHP_CodeSniffer\Files\File $phpcsFile, int $stackPtr): int|bool
+    {
+        return $phpcsFile->findPrevious(
+            [
+                T_OPEN_CURLY_BRACKET,
+                T_CLOSE_CURLY_BRACKET,
+            ],
+            $stackPtr - 1
+        );
+    }
+
     private function getFirstTokenInStatementIndex(\PHP_CodeSniffer\Files\File $phpcsFile, int $stackPtr): int|bool
     {
-		$previousCurlyBracketPosition = $phpcsFile->findPrevious(
-			[
-				T_OPEN_CURLY_BRACKET
-			],
-			$stackPtr - 1
-		);
+		$previousCurlyBracketPosition = $this->previousCurlyBracketPosition(
+            $phpcsFile,
+            $stackPtr,
+        );
 		$weAreInsideClassBody = $previousCurlyBracketPosition !== false;
 		if (!$weAreInsideClassBody) {
 			return 0;
@@ -77,6 +81,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
         $commaEncountered = false;
         $objectOperatorEncountered = false;
         $inArrowFunction = false;
+        $closeCurlyBracketCount = 0;
         while ($previousPossibleStartIndex !== false && $firstLineTokenIndex === false) {
             $previousPossibleStartIndex = $phpcsFile->findPrevious(
                 [
@@ -130,14 +135,15 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                         $firstLineTokenIndex = $previousPossibleStartIndex;
                     }
                 } elseif ($previousPossibleCode == T_CLOSE_CURLY_BRACKET) {
-                    if (!$parenCount) {
+                    if (!$parenCount && !$closeCurlyBracketCount) {
                         if ($lastTokenFoundWasComma || $lastTokenFoundWasCloseParenthesis) {
                             /**
                              * this is the closing curly brace of a closure param in a method call
                              */
-                            $previousPossibleStartIndex = $phpcsFile->findPrevious(
-                                T_CLOSURE,
-                                $previousPossibleStartIndex - 1);
+                            $previousPossibleStartIndex = $this->previousClosureStartPosition(
+                                $phpcsFile,
+                                $previousPossibleStartIndex
+                            );
                         } else {
                             /**
                              * this is the closing curly brace of a control structure
@@ -147,8 +153,12 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                                 $previousPossibleStartIndex + 1);
                         }
                     }
+                    $closeCurlyBracketCount++;
                 } elseif ($previousPossibleCode == T_OPEN_CURLY_BRACKET) {
-                    if (!$parenCount) {
+                    if ($closeCurlyBracketCount) {
+                        $closeCurlyBracketCount--;
+                    }
+                    if (!$parenCount && !$closeCurlyBracketCount) {
                         /**
                          * open curly bracket found - this must be the beginning of the method our token's statement
                          * is in OR a match statement
@@ -206,20 +216,53 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
              * we now know the line on which this statement starts, so we need the first token on the line
              */
             $statementFirstTokenIndex = $phpcsFile->findFirstOnLine([T_WHITESPACE], $firstLineTokenIndex, true);
-
             return $statementFirstTokenIndex;
         }
         
         return false;
     }
-    
-    /**
-     * 
-     * @param \PHP_CodeSniffer\Files\File $phpcsFile
-     * @param int $stackPtr
-     * @return array
-     */
-    private function findNextStatementStartIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
+
+    private function previousClosureStartPosition(\PHP_CodeSniffer\Files\File $phpcsFile, int $stackPtr): int|bool
+    {
+        $tokens = $phpcsFile->getTokens();
+        $searchTokenTypes = [
+            T_FN,
+            T_CLOSURE,
+            T_CLOSE_CURLY_BRACKET,
+            T_OPEN_CURLY_BRACKET,
+        ];
+        $stackPtr = $phpcsFile->findPrevious(
+            $searchTokenTypes,
+            $stackPtr - 1
+        );
+        $closeBracketCount = 1;
+        while ($stackPtr !== false) {
+            $previousToken = $tokens[$stackPtr];
+            switch ($previousToken['code']) {
+                case T_CLOSE_CURLY_BRACKET:
+                    $closeBracketCount++;
+                    break;
+                case T_OPEN_CURLY_BRACKET:
+                    if ($closeBracketCount) {
+                        $closeBracketCount--;
+                    }
+                    break;
+                case T_CLOSURE:
+                case T_FN:
+                    if ($closeBracketCount == 0) {
+                        return $stackPtr;
+                    }
+                    break;
+            }
+            $stackPtr = $phpcsFile->findPrevious(
+                $searchTokenTypes,
+                $stackPtr - 1
+            );
+        }
+        throw new \Exception('Could not find closure start position');
+    }
+
+    private function findNextStatementStartIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr): int
     {
         return $phpcsFile->findNext(
             [
@@ -235,7 +278,8 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             ],
             $stackPtr,
             null,
-            true);
+            true,
+        );
     }
     
 }
