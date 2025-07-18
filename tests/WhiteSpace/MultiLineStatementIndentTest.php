@@ -14,6 +14,10 @@ class MultiLineStatementIndentTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'closures in match' => [
+                'closures-in-match',
+                [],
+            ],
             'nested closure' => [
                 'nested-closure',
                 [],

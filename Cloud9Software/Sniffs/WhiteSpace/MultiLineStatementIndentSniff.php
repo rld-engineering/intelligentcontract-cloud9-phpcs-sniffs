@@ -151,9 +151,9 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                             $firstLineTokenIndex = $this->findNextStatementStartIndex(
                                 $phpcsFile,
                                 $previousPossibleStartIndex + 1);
+                            $closeCurlyBracketCount++;
                         }
                     }
-                    $closeCurlyBracketCount++;
                 } elseif ($previousPossibleCode == T_OPEN_CURLY_BRACKET) {
                     if ($closeCurlyBracketCount) {
                         $closeCurlyBracketCount--;
