@@ -14,6 +14,10 @@ class ClosingBracketNewLineTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'closing bracket plus method call' => [
+                'closing-bracket-plus-method-call',
+                [],
+            ],
             'function call no args' => [
                 'function-call-no-args',
                 [],

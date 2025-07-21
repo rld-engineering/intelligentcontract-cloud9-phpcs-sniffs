@@ -17,7 +17,6 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
     private function isThisTheLastBracketTokenOnLine(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr): bool
     {
         $tokens = $phpcsFile->getTokens();
-        $bracketCode = $tokens[$stackPtr]['code'];
         $thisTokenLine = $tokens[$stackPtr]['line'];
         $nextTokenIndex = $phpcsFile->findNext(
             T_CLOSE_PARENTHESIS,
@@ -35,21 +34,14 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
         if (!$this->isThisTheLastBracketTokenOnLine($phpcsFile, $stackPtr)) {
             return;
         }
-        $numberOfTokensOnThisLine = $this->numberOfTokensOnThisLine(
-            $phpcsFile,
-            $stackPtr,
-            false,
-		);
-        $numberOfBracketTokensOnThisLine = $this->numberOfTokensOnThisLine(
-            $phpcsFile,
-            $stackPtr,
-            true,
-		);
-        if ($numberOfTokensOnThisLine === 1) {
+        if (!$this->areThereAnyTokensBeforeThisTokenOnThisLine($phpcsFile, $stackPtr)) {
             return;
         }
-        $numberOfBracketsIsOdd = ($numberOfBracketTokensOnThisLine % 2) != 0;
-        if ($numberOfBracketsIsOdd) {
+        $openOutnumberClose = $this->doOpenTokensOutnumberCloseTokens(
+            $phpcsFile,
+            $stackPtr,
+        );
+        if ($openOutnumberClose) {
             $phpcsFile->addError(
                 "Closing bracket must be on a new line",
                 $stackPtr,
@@ -57,17 +49,35 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
             );
         }
     }
-	
-    private function numberOfTokensOnThisLine(
+
+    private function areThereAnyTokensBeforeThisTokenOnThisLine(
         \PHP_CodeSniffer\Files\File $phpcsFile,
         int $stackPtr,
-        bool $limitToBracketTokens,
-    ): int {
+    ): bool {
         $tokens = $phpcsFile->getTokens();
-        $bracketCode = $tokens[$stackPtr]['type'];
+        $thisLine = $tokens[$stackPtr]['line'];
+        $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(
+            T_WHITESPACE,
+            $stackPtr - 1,
+            null,
+            true,
+        );
+        if ($prevNonWhitespaceTokenIndex === false) {
+            return false;
+        }
+        return $tokens[$prevNonWhitespaceTokenIndex]['line'] == $thisLine;
+    }
+
+    private function doOpenTokensOutnumberCloseTokens(
+        \PHP_CodeSniffer\Files\File $phpcsFile,
+        int $stackPtr,
+    ): bool {
+        $tokens = $phpcsFile->getTokens();
+        $tokenCode = $tokens[$stackPtr]['type'];
         $thisLine = $tokens[$stackPtr]['line'];
         $prevNonWhitespaceTokenIndex = $stackPtr;
-        $bracketCount = 1;
+        $closeTokenCount = 1;
+        $openTokenCount = 0;
         $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(
             T_WHITESPACE,
             $prevNonWhitespaceTokenIndex - 1,
@@ -77,13 +87,33 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
         $prevTokenLine = $tokens[$prevNonWhitespaceTokenIndex]['line'];
         while ($prevTokenLine == $thisLine) {
             $prevTokenCode = $tokens[$prevNonWhitespaceTokenIndex]['type'];
-            $bracketMatches = $this->doesTokenMatch(
+            $tokenMatches = $this->doesTokenMatch(
                 $prevTokenCode,
-                $bracketCode,
-                $limitToBracketTokens,
+                $tokenCode,
             );
-            if ($bracketMatches) {
-                $bracketCount++;
+            if ($tokenMatches) {
+                if (
+                    in_array(
+                        $prevTokenCode,
+                        [
+                            'T_CLOSE_PARENTHESIS',
+                            'T_CLOSE_SQUARE_BRACKET',
+                        ],
+                    )
+                ) {
+                    $closeTokenCount++;
+                }
+                if (
+                    in_array(
+                        $prevTokenCode,
+                        [
+                            'T_OPEN_PARENTHESIS',
+                            'T_OPEN_SQUARE_BRACKET',
+                        ],
+                    )
+                ) {
+                    $openTokenCount++;
+                }
             }
             $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(
                 T_WHITESPACE,
@@ -93,18 +123,14 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
             );
             $prevTokenLine = $tokens[$prevNonWhitespaceTokenIndex]['line'];
         }
-        return $bracketCount;
+        return $openTokenCount > $closeTokenCount || !$openTokenCount;
     }
     
     private function doesTokenMatch(
         string $prevTokenCode,
-        string $bracketCode,
-        bool $limitToBracketTokens,
+        string $tokenCode,
     ): bool {
-        if (!$limitToBracketTokens) {
-            return true;
-        }
-        return match ($bracketCode) {
+        return match ($tokenCode) {
             'T_CLOSE_PARENTHESIS' => in_array(
                 $prevTokenCode,
                 [
@@ -119,7 +145,7 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
                     'T_CLOSE_SQUARE_BRACKET',
                 ],
             ),
-            default => throw new \Exception($bracketCode),
+            default => throw new \Exception($tokenCode),
         };
     }
 	
