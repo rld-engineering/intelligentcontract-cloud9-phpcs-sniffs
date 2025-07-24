@@ -1,24 +1,26 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
+namespace Cloud9Software\Sniffs\Namespaces;
+
+final readonly class UnusedNamespaceDeclarationsSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [T_USE];
     }
-    
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
         if ($this->isUseDeclaration($phpcsFile, $stackPtr)) {
             $endOfDeclarationIndex = $phpcsFile->findNext([T_COMMA, T_SEMICOLON], $stackPtr + 1);
-            
+
             $endOfUseDeclarationReached = false;
-            
+
             while (!$endOfUseDeclarationReached) {
                 /**
                  * find the actual alias
@@ -81,7 +83,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                             /**
                              * alias is to a namespace under which a class is being referenced
                              */
-                             $namespaceIsUsed = true;
+                            $namespaceIsUsed = true;
                         }
                     }
 
@@ -96,10 +98,10 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
                 if (!$namespaceIsUsed && !$this->isNamespaceUsedInComments($phpcsFile, $alias)) {
                     $phpcsFile->addError("Unused 'use' declaration found", $stackPtr, 'UnusedUse');
                 }
-                
+
                 $endOfDeclarationToken = $tokens[$endOfDeclarationIndex];
                 $endOfUseDeclarationReached = $endOfDeclarationToken['code'] == T_SEMICOLON;
-                
+
                 if (!$endOfUseDeclarationReached) {
                     /**
                      * keep on going until we hit the last alias in this use declaration
@@ -111,7 +113,7 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
             }
         }
     }
-    
+
     private function isNamespaceUsedInComments(\PHP_CodeSniffer\Files\File $phpcsFile, string $alias): bool
     {
         $tokens = $phpcsFile->getTokens();
@@ -124,9 +126,9 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
         }
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return bool
@@ -137,14 +139,14 @@ class Cloud9Software_Sniffs_Namespaces_UnusedNamespaceDeclarationsSniff
 
         $next = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
         if ($tokens[$next]['code'] === T_OPEN_PARENTHESIS) {
-           return false;
-        } 
-        
+            return false;
+        }
+
         if ($phpcsFile->hasCondition($stackPtr, [T_CLASS, T_TRAIT]) === true) {
             return false;
         }
-        
+
         return true;
     }
-    
+
 }

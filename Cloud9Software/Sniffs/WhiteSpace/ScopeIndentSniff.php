@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSniffer\Sniffs\Sniff
+namespace Cloud9Software\Sniffs\Whitespace;
+final readonly class ScopeIndentSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
@@ -13,23 +14,23 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
             T_RETURN
         ];
     }
-    
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        
+
         $firstTokenInStatementIndex = $this->getFirstTokenInStatementIndex($phpcsFile, $stackPtr);
         $thisTokenIsTheStartOfAStatement = $firstTokenInStatementIndex == $stackPtr;
-        
+
         if ($thisTokenIsTheStartOfAStatement) {
             $scopeStartIndex = $this->findScopeStartIndex($phpcsFile, $stackPtr);
-            
+
             if ($scopeStartIndex !== false) {
                 $scopeStartToken = $tokens[$scopeStartIndex];
-                
+
                 $expectedIndent = $scopeStartToken['column'] + 4;
                 $actualIndent = $tokens[$stackPtr]['column'];
-                
+
                 if ($expectedIndent != $actualIndent) {
                     $phpcsFile->addError(
                         "Indent incorrect; expected " . ($expectedIndent - 1)
@@ -40,9 +41,9 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return int
@@ -54,13 +55,13 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
         $tokens = $phpcsFile->getTokens();
         $curlyParenCount = 1;
         $parenCount = 0;
-        
+
         $structs = [
             T_WHILE,
             T_FOR,
             T_FOREACH
         ];
-        
+
         while ($previousPossibleStartIndex !== false && $scopeStartIndex === false) {
             $previousPossibleStartIndex = $phpcsFile->findPrevious(
                 [
@@ -82,11 +83,11 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
                     T_MATCH
                 ],
                 $previousPossibleStartIndex - 1);
-            
+
             if ($previousPossibleStartIndex !== false) {
                 $previousPossible = $tokens[$previousPossibleStartIndex];
                 $previousPossibleCode = $previousPossible['code'];
-                
+
                 switch ($previousPossibleCode) {
                     case T_CLOSE_CURLY_BRACKET:
                         $curlyParenCount++;
@@ -121,18 +122,18 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
                 }
             }
         }
-        
+
         if ($scopeStartIndex !== false) {
             $scopeStartFirstTokenIndex = $phpcsFile->findFirstOnLine([T_WHITESPACE], $scopeStartIndex, true);
-            
+
             return $scopeStartFirstTokenIndex;
         }
-        
+
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return int
@@ -147,7 +148,7 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
         $lastTokenFoundWasComma = false;
         $commaEncountered = false;
         $objectOperatorEncountered = false;
-        
+
         while ($previousPossibleStartIndex !== false && $firstLineTokenIndex === false) {
             $previousPossibleStartIndex = $phpcsFile->findPrevious(
                 [
@@ -161,11 +162,11 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
                     T_OBJECT_OPERATOR
                 ],
                 $previousPossibleStartIndex - 1);
-            
+
             if ($previousPossibleStartIndex !== false) {
                 $previousPossible = $tokens[$previousPossibleStartIndex];
                 $previousPossibleCode = $previousPossible['code'];
-                
+
                 if ($previousPossibleCode == T_CLOSE_PARENTHESIS) {
                     $parenCount++;
                 } elseif ($previousPossibleCode == T_OPEN_PARENTHESIS) {
@@ -228,7 +229,7 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
                             $previousPossibleStartIndex + 1);
                     }
                 }
-                
+
                 if ($previousPossibleCode != T_COMMA) {
                     $lastTokenFoundWasComma = false;
                 }
@@ -245,12 +246,12 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
         } else {
             $return = false;
         }
-        
+
         return $return;
     }
-    
+
     /**
-     * 
+     *
      * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return array
@@ -267,5 +268,5 @@ class Cloud9Software_Sniffs_Whitespace_ScopeIndentSniff implements \PHP_CodeSnif
             null,
             true);
     }
-    
+
 }

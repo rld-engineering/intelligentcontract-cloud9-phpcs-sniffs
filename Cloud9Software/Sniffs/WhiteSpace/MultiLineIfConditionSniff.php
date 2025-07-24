@@ -1,26 +1,27 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_Whitespace_MultiLineIfConditionSniff
+namespace Cloud9Software\Sniffs\Whitespace;
+final readonly class MultiLineIfConditionSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
             T_IF
         ];
     }
-    
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $closingParenIndex = $this->getClosingParenIndex($phpcsFile, $stackPtr);
-        
+
         $tokens = $phpcsFile->getTokens();
         $if = $tokens[$stackPtr];
         $closingParen = $tokens[$closingParenIndex];
-        
+
         if ($closingParen['line'] != $if['line'] && $closingParen['column'] != $if['column']) {
             $phpcsFile->addError(
                 'Closing paren should be on the same column as "if"',
@@ -28,9 +29,9 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineIfConditionSniff
                 'MultiLineIfCondition');
         }
     }
-    
+
     /**
-     * 
+     *
      * @param \PHP_CodeSniffer\Files\File $phpcsFile
      * @param int $stackPtr
      * @return int
@@ -38,18 +39,18 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineIfConditionSniff
     private function getClosingParenIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        
+
         $parenTypes = [
             T_OPEN_PARENTHESIS,
             T_CLOSE_PARENTHESIS
         ];
-        
+
         $parenCount = 0;
-        
+
         $nextParenIndex = $phpcsFile->findNext(
             $parenTypes,
             $stackPtr + 1);
-        
+
         while ($nextParenIndex) {
             $nextParen = $tokens[$nextParenIndex];
 
@@ -71,5 +72,5 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineIfConditionSniff
                 $nextParenIndex + 1);
         }
     }
-    
+
 }

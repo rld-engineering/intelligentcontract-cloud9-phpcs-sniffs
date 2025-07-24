@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
+namespace Cloud9Software\Sniffs\Whitespace;
+final readonly class MultiLineStatementIndentSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
@@ -19,27 +20,27 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             T_OPEN_SHORT_ARRAY
         ];
     }
-    
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        
+
         $firstTokenOnLineIndex = $phpcsFile->findFirstOnLine([T_WHITESPACE], $stackPtr, true);
         $thisIsFirstTokenOnLine = ($firstTokenOnLineIndex == $stackPtr);
-        
+
         $previousTokenIsString = $stackPtr && $tokens[$stackPtr - 1]['code'] == T_CONSTANT_ENCAPSED_STRING;
         $thisTokenIsString = $tokens[$stackPtr]['code'] == T_CONSTANT_ENCAPSED_STRING;
         $thisIsContinuationOfMultiLineString = $thisTokenIsString && $previousTokenIsString;
-        
+
         if ($thisIsFirstTokenOnLine && !$thisIsContinuationOfMultiLineString) {
             $statementBeginningIndex = $this->getFirstTokenInStatementIndex($phpcsFile, $stackPtr);
-            
+
             if ($statementBeginningIndex && $statementBeginningIndex != $firstTokenOnLineIndex) {
                 $statementBeginningToken = $tokens[$statementBeginningIndex];
-                
+
                 $expectedIndent = $statementBeginningToken['column'] + 4;
                 $firstTokenOnLine = $tokens[$firstTokenOnLineIndex];
-                
+
                 if ($expectedIndent != $firstTokenOnLine['column']) {
                     $phpcsFile->addError(
                         "Indent incorrect; expected " . ($expectedIndent - 1)
@@ -58,20 +59,20 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                 T_OPEN_CURLY_BRACKET,
                 T_CLOSE_CURLY_BRACKET,
             ],
-            $stackPtr - 1
+            $stackPtr - 1,
         );
     }
 
     private function getFirstTokenInStatementIndex(\PHP_CodeSniffer\Files\File $phpcsFile, int $stackPtr): int|bool
     {
-		$previousCurlyBracketPosition = $this->previousCurlyBracketPosition(
+        $previousCurlyBracketPosition = $this->previousCurlyBracketPosition(
             $phpcsFile,
             $stackPtr,
         );
-		$weAreInsideClassBody = $previousCurlyBracketPosition !== false;
-		if (!$weAreInsideClassBody) {
-			return 0;
-		}
+        $weAreInsideClassBody = $previousCurlyBracketPosition !== false;
+        if (!$weAreInsideClassBody) {
+            return 0;
+        }
         $previousPossibleStartIndex = $stackPtr;
         $tokens = $phpcsFile->getTokens();
         $parenCount = 0;
@@ -99,7 +100,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                     T_CLOSE_SHORT_ARRAY,
                     T_FN_ARROW
                 ],
-                $previousPossibleStartIndex - 1
+                $previousPossibleStartIndex - 1,
             );
             if ($previousPossibleStartIndex !== false) {
                 $previousPossible = $tokens[$previousPossibleStartIndex];
@@ -142,7 +143,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
                              */
                             $previousPossibleStartIndex = $this->previousClosureStartPosition(
                                 $phpcsFile,
-                                $previousPossibleStartIndex
+                                $previousPossibleStartIndex,
                             );
                         } else {
                             /**
@@ -218,7 +219,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             $statementFirstTokenIndex = $phpcsFile->findFirstOnLine([T_WHITESPACE], $firstLineTokenIndex, true);
             return $statementFirstTokenIndex;
         }
-        
+
         return false;
     }
 
@@ -233,7 +234,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
         ];
         $stackPtr = $phpcsFile->findPrevious(
             $searchTokenTypes,
-            $stackPtr - 1
+            $stackPtr - 1,
         );
         $closeBracketCount = 1;
         while ($stackPtr !== false) {
@@ -256,7 +257,7 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             }
             $stackPtr = $phpcsFile->findPrevious(
                 $searchTokenTypes,
-                $stackPtr - 1
+                $stackPtr - 1,
             );
         }
         throw new \Exception('Could not find closure start position');
@@ -281,5 +282,5 @@ class Cloud9Software_Sniffs_Whitespace_MultiLineStatementIndentSniff
             true,
         );
     }
-    
+
 }

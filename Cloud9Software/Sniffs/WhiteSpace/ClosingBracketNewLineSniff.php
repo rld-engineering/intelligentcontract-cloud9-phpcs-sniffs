@@ -1,19 +1,21 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
+namespace Cloud9Software\Sniffs\Whitespace;
+
+final readonly class ClosingBracketNewLineSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
             T_CLOSE_PARENTHESIS,
             T_CLOSE_SQUARE_BRACKET,
         ];
-	}
-	
+    }
+
     private function isThisTheLastBracketTokenOnLine(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr): bool
     {
         $tokens = $phpcsFile->getTokens();
@@ -28,9 +30,9 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
         $nextToken = $tokens[$nextTokenIndex];
         return $nextToken['line'] != $thisTokenLine;
     }
-    
-	public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
-	{
+
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
+    {
         if (!$this->isThisTheLastBracketTokenOnLine($phpcsFile, $stackPtr)) {
             return;
         }
@@ -125,7 +127,7 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
         }
         return $openTokenCount > $closeTokenCount || !$openTokenCount;
     }
-    
+
     private function doesTokenMatch(
         string $prevTokenCode,
         string $tokenCode,
@@ -148,6 +150,6 @@ class Cloud9Software_Sniffs_Whitespace_ClosingBracketNewLineSniff
             default => throw new \Exception($tokenCode),
         };
     }
-	
+
 }
 

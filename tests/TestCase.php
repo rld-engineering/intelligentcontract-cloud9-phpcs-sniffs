@@ -26,7 +26,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                     $return[] = [
                         $line,
                         $col,
-                        $error['message']
+                        $error['message'],
                     ];
                 }
             }
@@ -42,7 +42,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         return mb_substr(
             $parts[$partCount - 1],
             0,
-            mb_strlen($parts[$partCount - 1]) - 4);
+            mb_strlen($parts[$partCount - 1]) - 4,
+        );
     }
 
     private function testNamespace(): string

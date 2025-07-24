@@ -1,17 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-final readonly class Cloud9Software_Sniffs_Whitespace_ReturnTypeSpaceSniff implements \PHP_CodeSniffer\Sniffs\Sniff
+namespace Cloud9Software\Sniffs\Whitespace;
+final readonly class ReturnTypeSpaceSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
             T_FUNCTION
         ];
     }
-    
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
@@ -25,7 +26,7 @@ final readonly class Cloud9Software_Sniffs_Whitespace_ReturnTypeSpaceSniff imple
             ],
             $closingParenIndex + 1,
             null,
-            true
+            true,
         );
         if ($nextNonWhitespaceTokenIndex === false) {
             return;
@@ -44,10 +45,10 @@ final readonly class Cloud9Software_Sniffs_Whitespace_ReturnTypeSpaceSniff imple
         $phpcsFile->addError(
             '":" must be followed by a space',
             $stackPtr,
-            'ReturnTypeSpace'
+            'ReturnTypeSpace',
         );
     }
-    
+
     private function closingParenIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr): int
     {
         $nextParen = $phpcsFile->findNext(
@@ -57,7 +58,7 @@ final readonly class Cloud9Software_Sniffs_Whitespace_ReturnTypeSpaceSniff imple
             ],
             $stackPtr,
             null,
-            false
+            false,
         );
         $tokens = $phpcsFile->getTokens();
         $bracketCounter = 0;
@@ -79,10 +80,10 @@ final readonly class Cloud9Software_Sniffs_Whitespace_ReturnTypeSpaceSniff imple
                 ],
                 $nextParen + 1,
                 null,
-                false
+                false,
             );
         }
         return -1;
     }
-    
+
 }

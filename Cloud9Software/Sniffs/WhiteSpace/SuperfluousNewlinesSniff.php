@@ -1,11 +1,12 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
+namespace Cloud9Software\Sniffs\Whitespace;
+final readonly class SuperfluousNewlinesSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
@@ -13,22 +14,22 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
             T_CLOSE_CURLY_BRACKET
         ];
     }
-    
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        
+
         $currentToken = $tokens[$stackPtr];
-        
+
         if ($currentToken['code'] == T_OPEN_CURLY_BRACKET) {
             $nextNonWhitespaceIndex = $phpcsFile->findNext([T_WHITESPACE], $stackPtr + 1, null, true);
         } else {
             $nextNonWhitespaceIndex = $phpcsFile->findPrevious([T_WHITESPACE], $stackPtr - 1, null, true);
         }
-        
+
         if ($this->tokenIndexIsInsideFunction($phpcsFile, $nextNonWhitespaceIndex)) {
             $nextNonWhitespaceToken = $tokens[$nextNonWhitespaceIndex];
-            
+
             if (abs($nextNonWhitespaceToken['line'] - $currentToken['line']) > 1) {
                 $phpcsFile->addError(
                     "Superfluous newlines found before/after scope start/end",
@@ -37,11 +38,11 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
             }
         }
     }
-    
+
     private function tokenIndexIsInsideFunction(\PHP_CodeSniffer\Files\File $phpcsFile, $index)
     {
         $tokens = $phpcsFile->getTokens();
-        
+
         $tokenIndex = $phpcsFile->findPrevious(
             [
                 T_FUNCTION,
@@ -49,11 +50,11 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
                 T_OPEN_CURLY_BRACKET
             ],
             $index);
-        
+
         $bracketCount = 0;
         while ($tokenIndex) {
             $token = $tokens[$tokenIndex];
-            
+
             switch ($token['code']) {
                 case T_CLOSE_CURLY_BRACKET:
                     $bracketCount++;
@@ -76,8 +77,8 @@ class Cloud9Software_Sniffs_Whitespace_SuperfluousNewlinesSniff
                 ],
                 $tokenIndex - 1);
         }
-        
+
         return false;
     }
-    
+
 }

@@ -1,21 +1,23 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_ControlStructures_TrailingCommasSniff
+namespace Cloud9Software\Sniffs\ControlStructures;
+
+final readonly class TrailingCommasSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
             T_CLOSE_PARENTHESIS,
             T_CLOSE_SQUARE_BRACKET,
         ];
-	}
-	
-	public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
-	{
+    }
+
+    public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
+    {
         $tokens = $phpcsFile->getTokens();
         $thisToken = $tokens[$stackPtr];
         $thisLine = $thisToken['line'];

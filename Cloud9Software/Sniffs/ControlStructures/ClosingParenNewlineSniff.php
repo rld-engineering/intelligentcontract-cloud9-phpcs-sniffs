@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implements \PHP_CodeSniffer\Sniffs\Sniff
+namespace Cloud9Software\Sniffs\ControlStructures;
+final readonly class ClosingParenNewlineSniff implements \PHP_CodeSniffer\Sniffs\Sniff
 {
-    
+
     public function register()
     {
         return [
@@ -15,17 +16,17 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
             T_ELSEIF
         ];
     }
-    
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        
+
         $closingParenIndex = $this->getClosingParenIndex($phpcsFile, $stackPtr);
-        
+
         if ($closingParenIndex) {
             $thisToken = $tokens[$stackPtr];
             $closingParenToken = $tokens[$closingParenIndex];
-            
+
             if ($closingParenToken['line'] != $thisToken['line']) {
                 /**
                  * there shouldn't be anything else before the paren on the line
@@ -45,7 +46,7 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
             }
         }
     }
-    
+
     private function getClosingParenIndex(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
@@ -53,29 +54,29 @@ class Cloud9Software_Sniffs_ControlStructures_ClosingParenNewlineSniff implement
             T_OPEN_PARENTHESIS,
             T_CLOSE_PARENTHESIS
         ];
-        
+
         $nextParenIndex = $phpcsFile->findNext($searchTokens, $stackPtr + 1);
         $parenCount = 0;
-        
+
         while ($nextParenIndex) {
             $nextParenToken = $tokens[$nextParenIndex];
-            
+
             switch ($nextParenToken['code']) {
                 case T_OPEN_PARENTHESIS:
                     $parenCount++;
                     break;
                 case T_CLOSE_PARENTHESIS:
                     $parenCount--;
-                    
+
                     if (!$parenCount) {
                         return $nextParenIndex;
                     }
             }
-            
+
             $nextParenIndex = $phpcsFile->findNext($searchTokens, $nextParenIndex + 1);
         }
-     
+
         return false;
     }
-    
+
 }
