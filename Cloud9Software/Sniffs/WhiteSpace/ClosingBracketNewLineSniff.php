@@ -33,8 +33,27 @@ final readonly class ClosingBracketNewLineSniff
         return $nextToken['line'] != $thisTokenLine;
     }
 
+    private function isFirstTokenOnLineIf(
+        \PHP_CodeSniffer\Files\File $phpcsFile,
+        int $stackPtr,
+    ): bool {
+        $tokens = $phpcsFile->getTokens();
+        $thisLine = $tokens[$stackPtr]['line'];
+        $prevIfToken = $phpcsFile->findPrevious(
+            T_IF,
+            $stackPtr - 1,
+        );
+        if ($prevIfToken === false) {
+            return false;
+        }
+        return $tokens[$prevIfToken]['line'] == $thisLine;
+    }
+
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
+        if ($this->isFirstTokenOnLineIf($phpcsFile, $stackPtr)) {
+            return;
+        }
         if (!$this->isThisTheLastBracketTokenOnLine($phpcsFile, $stackPtr)) {
             return;
         }
