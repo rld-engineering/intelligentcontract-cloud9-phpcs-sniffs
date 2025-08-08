@@ -16,12 +16,14 @@ final readonly class ClosingBracketNewLineSniff
         ];
     }
 
-    private function isThisTheLastBracketTokenOnLine(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr): bool
-    {
+    private function isThisTheLastBracketTokenOnLine(
+        \PHP_CodeSniffer\Files\File $phpcsFile,
+        int $stackPtr,
+    ): bool {
         $tokens = $phpcsFile->getTokens();
         $thisTokenLine = $tokens[$stackPtr]['line'];
         $nextTokenIndex = $phpcsFile->findNext(
-            T_CLOSE_PARENTHESIS,
+            $tokens[$stackPtr]['code'],
             $stackPtr + 1,
         );
         if (!$nextTokenIndex) {
@@ -125,7 +127,7 @@ final readonly class ClosingBracketNewLineSniff
             );
             $prevTokenLine = $tokens[$prevNonWhitespaceTokenIndex]['line'];
         }
-        return $openTokenCount > $closeTokenCount || !$openTokenCount;
+        return ($openTokenCount > $closeTokenCount) || !$openTokenCount;
     }
 
     private function doesTokenMatch(

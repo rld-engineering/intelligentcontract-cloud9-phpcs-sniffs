@@ -44,6 +44,10 @@ class ClosingBracketNewLineTest extends TestCase
                     ]
                 ],
             ],
+            'nested-array' => [
+                'nested-array',
+                [],
+            ],
         ];
     }
     
