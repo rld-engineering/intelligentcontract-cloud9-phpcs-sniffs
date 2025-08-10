@@ -1,5 +1,7 @@
 {
     "name": "cloud9software/phpcs-sniffs",
+    "description": "A collection of custom PHP_CodeSniffer sniffs for Cloud9 Software.",
+    "license": "proprietary",
     "require": {
       "squizlabs/php_codesniffer": "3.*"
     }
