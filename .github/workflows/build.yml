@@ -17,3 +17,7 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
+
+      - name: Run precommit
+        working-directory: ./tests
+        run: make precommit
