@@ -21,7 +21,7 @@ class ClosingParenNewlineTest extends TestCase
                 'multi-line-structure-incorrect',
                 [
                     [
-                        7,
+                        8,
                         9,
                         'Closing parenthesis and "{" of a multi-line control structure expression should be '
                         . 'on their own line',
