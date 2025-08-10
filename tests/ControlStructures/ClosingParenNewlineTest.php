@@ -24,9 +24,10 @@ class ClosingParenNewlineTest extends TestCase
                         8,
                         9,
                         'Closing parenthesis and "{" of a multi-line control structure expression should be '
-                        . 'on their own line']
-                ]
-            ]
+                        . 'on their own line',
+                    ],
+                ],
+            ],
         ];
     }
     
