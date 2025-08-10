@@ -3,7 +3,7 @@ ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 precommit: phpunit
 
 phpunit:
-	cd $(ROOT_DIR); phpunit --display-phpunit-deprecations .
+	cd $(ROOT_DIR); ../vendor/bin/phpunit --display-phpunit-deprecations .
 
 phpunit-coverage:
 	cd $(ROOT_DIR); phpunit-xdebug --coverage-text .
