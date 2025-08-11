@@ -52,6 +52,16 @@ class ClosingBracketNewLineTest extends TestCase
                 'multi-line-if',
                 [],
             ],
+            'function call on last line' => [
+                'function-call-on-last-line',
+                [
+                    [
+                        10,
+                        107,
+                        'Closing bracket must be on a new line',
+                    ],
+                ],
+            ],
         ];
     }
     

@@ -60,11 +60,11 @@ final readonly class ClosingBracketNewLineSniff
         if (!$this->areThereAnyTokensBeforeThisTokenOnThisLine($phpcsFile, $stackPtr)) {
             return;
         }
-        $openOutnumberClose = $this->doOpenTokensOutnumberCloseTokens(
+        $isLastBracketBalanced = $this->isLastBracketBalanced(
             $phpcsFile,
             $stackPtr,
         );
-        if ($openOutnumberClose) {
+        if (!$isLastBracketBalanced) {
             $phpcsFile->addError(
                 "Closing bracket must be on a new line",
                 $stackPtr,
@@ -91,7 +91,7 @@ final readonly class ClosingBracketNewLineSniff
         return $tokens[$prevNonWhitespaceTokenIndex]['line'] == $thisLine;
     }
 
-    private function doOpenTokensOutnumberCloseTokens(
+    private function isLastBracketBalanced(
         \PHP_CodeSniffer\Files\File $phpcsFile,
         int $stackPtr,
     ): bool {
@@ -100,7 +100,6 @@ final readonly class ClosingBracketNewLineSniff
         $thisLine = $tokens[$stackPtr]['line'];
         $prevNonWhitespaceTokenIndex = $stackPtr;
         $closeTokenCount = 1;
-        $openTokenCount = 0;
         $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(
             T_WHITESPACE,
             $prevNonWhitespaceTokenIndex - 1,
@@ -135,7 +134,10 @@ final readonly class ClosingBracketNewLineSniff
                         ],
                     )
                 ) {
-                    $openTokenCount++;
+                    $closeTokenCount--;
+                    if (!$closeTokenCount) {
+                        return true;
+                    }
                 }
             }
             $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(
@@ -146,7 +148,7 @@ final readonly class ClosingBracketNewLineSniff
             );
             $prevTokenLine = $tokens[$prevNonWhitespaceTokenIndex]['line'];
         }
-        return ($openTokenCount > $closeTokenCount) || !$openTokenCount;
+        return $closeTokenCount === 0;
     }
 
     private function doesTokenMatch(
