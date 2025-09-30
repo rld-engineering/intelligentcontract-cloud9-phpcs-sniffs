@@ -7,33 +7,135 @@ namespace Cloud9Software\Sniffs\ControlStructures;
 final readonly class TrailingCommasSniff
     implements \PHP_CodeSniffer\Sniffs\Sniff
 {
+    public const CODE_MISSING_TRAILING_COMMA = 'MissingTrailingComma';
+    public const CODE_UNEXPECTED_TRAILING_COMMA = 'UnexpectedTrailingComma';
 
     public function register()
     {
         return [
-            T_CLOSE_PARENTHESIS,
-            T_CLOSE_SQUARE_BRACKET,
+            T_OPEN_PARENTHESIS,
+            T_OPEN_SHORT_ARRAY,
         ];
     }
 
     public function process(\PHP_CodeSniffer\Files\File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $thisToken = $tokens[$stackPtr];
-        $thisLine = $thisToken['line'];
-        $prevNonWhitespaceTokenIndex = $phpcsFile->findPrevious(
-            T_WHITESPACE,
-            $stackPtr - 1,
-            null,
-            true,
-        );
-        $prevToken = $tokens[$prevNonWhitespaceTokenIndex];
-        if ($prevToken['line'] != $thisLine && $prevToken['code'] != T_COMMA) {
-            $phpcsFile->addError(
-                "Last element of a multi-line comma separated list must have a trailing comma",
-                $stackPtr,
-                'TrailingCommas',
+        $token  = $tokens[$stackPtr];
+
+        $isArray = ($token['code'] === T_OPEN_SHORT_ARRAY);
+
+        // Determine closer pointer.
+        $closerPtr = $isArray
+            ? ($token['bracket_closer'] ?? null)
+            : ($token['parenthesis_closer'] ?? null);
+
+        if ($closerPtr === null) {
+            return;
+        }
+
+        $prevPtr = $phpcsFile->findPrevious(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, $stackPtr - 1, null, true);
+        if ($prevPtr === false) {
+            return;
+        }
+        $prevCode = $tokens[$prevPtr]['code'];
+
+        $controlStructureCodes = [
+            T_IF, T_ELSEIF, T_ELSE, T_FOR, T_FOREACH, T_WHILE,
+            T_SWITCH, T_CATCH, T_MATCH, T_DECLARE,
+        ];
+        if (in_array($prevCode, $controlStructureCodes, true)) {
+            return;
+        }
+
+        $isList = false;
+        if ($isArray) {
+            $isList = true;
+        }
+
+        if (!$isArray && isset($token['parenthesis_owner'])) {
+            $ownerCode = $tokens[$token['parenthesis_owner']]['code'];
+            if (in_array($ownerCode, [T_FUNCTION, T_FN, T_CLOSURE], true)) {
+                $isList = true; // parameter list
+            }
+        }
+
+        if (!$isArray && !$isList) {
+            $callLikePrevCodes = [
+                T_STRING, T_VARIABLE, T_CLOSE_PARENTHESIS, T_STATIC, T_SELF, T_PARENT,
+                T_OBJECT_OPERATOR, T_NULLSAFE_OBJECT_OPERATOR, T_PAAMAYIM_NEKUDOTAYIM,
+                T_NEW, T_CLOSE_SQUARE_BRACKET,
+            ];
+            if (in_array($prevCode, $callLikePrevCodes, true)) {
+                $isList = true; // call / instantiation argument list
+            }
+        }
+
+        if (!$isList) {
+            return; // grouping parenthesis, do not enforce
+        }
+
+        // Find last non-empty (excluding whitespace & comments) before closer.
+        $searchPtr = $closerPtr - 1;
+        while ($searchPtr > $stackPtr) {
+            $code = $tokens[$searchPtr]['code'];
+            if (!in_array($code, \PHP_CodeSniffer\Util\Tokens::$emptyTokens, true)
+                && $code !== T_COMMENT
+                && $code !== T_DOC_COMMENT_CLOSE_TAG
+                && $code !== T_DOC_COMMENT_WHITESPACE
+                && $code !== T_DOC_COMMENT_STAR
+                && $code !== T_DOC_COMMENT_STRING
+                && $code !== T_DOC_COMMENT_OPEN_TAG
+                && $code !== T_DOC_COMMENT_TAG
+            ) {
+                break;
+            }
+            $searchPtr--;
+        }
+
+        // Empty list.
+        if ($searchPtr <= $stackPtr) {
+            return; // empty () or []
+        }
+
+        $lastMeaningfulPtr = $searchPtr;
+        $hasTrailingComma  = ($tokens[$lastMeaningfulPtr]['code'] === T_COMMA);
+
+        // Determine last element ptr (exclude comma if present).
+        $lastElementPtr = $hasTrailingComma
+            ? $phpcsFile->findPrevious(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, $lastMeaningfulPtr - 1, null, true)
+            : $lastMeaningfulPtr;
+
+        if ($lastElementPtr === false) {
+            return;
+        }
+
+        $lastElementLine = $tokens[$lastElementPtr]['line'];
+        $closerLine = $tokens[$closerPtr]['line'];
+
+        $shouldHaveTrailingComma = ($lastElementLine !== $closerLine);
+
+        // Rewritten without else/elseif.
+        if ($shouldHaveTrailingComma && !$hasTrailingComma) {
+            $fix = $phpcsFile->addFixableError(
+                'Multi-line list must end with a trailing comma.',
+                $lastElementPtr,
+                self::CODE_MISSING_TRAILING_COMMA
             );
+            if ($fix) {
+                $phpcsFile->fixer->addContent($lastElementPtr, ',');
+            }
+        }
+
+        if (!$shouldHaveTrailingComma && $hasTrailingComma) {
+            $fix = $phpcsFile->addFixableError(
+                'Single-line list must not have a trailing comma.',
+                $lastMeaningfulPtr,
+                self::CODE_UNEXPECTED_TRAILING_COMMA
+            );
+            if ($fix) {
+                $phpcsFile->fixer->replaceToken($lastMeaningfulPtr, '');
+            }
         }
     }
 
