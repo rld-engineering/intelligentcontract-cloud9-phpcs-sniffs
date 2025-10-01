@@ -16,17 +16,35 @@ final class TrailingCommasTest extends TestCase
         return [
             'multi line, correct' => [
                 'multi-line-correct',
-                []
+                [],
+            ],
+            'method args, correct' => [
+                'method-args-correct',
+                [],
+            ],
+            'expression in parens' => [
+                'if-expression-in-parens',
+                [],
+            ],
+            'method args, incorrect' => [
+                'method-args-incorrect',
+                [
+                    [
+                        8,
+                        16,
+                        'Multi-line list must end with a trailing comma.',
+                    ],
+                ],
             ],
             'multi line, incorrect' => [
                 'multi-line-incorrect',
                 [
                     [
-                        10,
                         9,
-                        'Last element of a multi-line comma separated list must have a trailing comma',
-                    ]
-                ]
+                        13,
+                        'Multi-line list must end with a trailing comma.',
+                    ],
+                ],
             ],
         ];
     }
