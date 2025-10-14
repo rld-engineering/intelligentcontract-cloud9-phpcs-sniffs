@@ -15,6 +15,7 @@ final readonly class TrailingCommasSniff
         return [
             T_OPEN_PARENTHESIS,
             T_OPEN_SHORT_ARRAY,
+            T_MATCH,
         ];
     }
 
@@ -22,6 +23,12 @@ final readonly class TrailingCommasSniff
     {
         $tokens = $phpcsFile->getTokens();
         $token  = $tokens[$stackPtr];
+
+        // Handle match statements
+        if ($token['code'] === T_MATCH) {
+            $this->processMatch($phpcsFile, $stackPtr);
+            return;
+        }
 
         $isArray = ($token['code'] === T_OPEN_SHORT_ARRAY);
 
@@ -130,6 +137,75 @@ final readonly class TrailingCommasSniff
         if (!$shouldHaveTrailingComma && $hasTrailingComma) {
             $fix = $phpcsFile->addFixableError(
                 'Single-line list must not have a trailing comma.',
+                $lastMeaningfulPtr,
+                self::CODE_UNEXPECTED_TRAILING_COMMA
+            );
+            if ($fix) {
+                $phpcsFile->fixer->replaceToken($lastMeaningfulPtr, '');
+            }
+        }
+    }
+
+    private function processMatch(\PHP_CodeSniffer\Files\File $phpcsFile, int $matchPtr): void
+    {
+        $tokens = $phpcsFile->getTokens();
+
+        // Find the opening brace of the match body
+        $openBracePtr = $phpcsFile->findNext(T_OPEN_CURLY_BRACKET, $matchPtr + 1);
+        if ($openBracePtr === false || !isset($tokens[$openBracePtr]['bracket_closer'])) {
+            return;
+        }
+
+        $closeBracePtr = $tokens[$openBracePtr]['bracket_closer'];
+
+        // Find last non-empty token before closing brace
+        $searchPtr = $closeBracePtr - 1;
+        while ($searchPtr > $openBracePtr) {
+            $code = $tokens[$searchPtr]['code'];
+            if (!in_array($code, \PHP_CodeSniffer\Util\Tokens::$emptyTokens, true)
+                && $code !== T_COMMENT
+                && $code !== T_DOC_COMMENT_CLOSE_TAG
+            ) {
+                break;
+            }
+            $searchPtr--;
+        }
+
+        if ($searchPtr <= $openBracePtr) {
+            return; // Empty match
+        }
+
+        $lastMeaningfulPtr = $searchPtr;
+        $hasTrailingComma  = ($tokens[$lastMeaningfulPtr]['code'] === T_COMMA);
+
+        // Find the last element (before comma if present)
+        $lastElementPtr = $hasTrailingComma
+            ? $phpcsFile->findPrevious(\PHP_CodeSniffer\Util\Tokens::$emptyTokens, $lastMeaningfulPtr - 1, null, true)
+            : $lastMeaningfulPtr;
+
+        if ($lastElementPtr === false) {
+            return;
+        }
+
+        $lastElementLine = $tokens[$lastElementPtr]['line'];
+        $closeBraceLine = $tokens[$closeBracePtr]['line'];
+
+        $shouldHaveTrailingComma = ($lastElementLine !== $closeBraceLine);
+
+        if ($shouldHaveTrailingComma && !$hasTrailingComma) {
+            $fix = $phpcsFile->addFixableError(
+                'Multi-line match statement must end with a trailing comma.',
+                $lastElementPtr,
+                self::CODE_MISSING_TRAILING_COMMA
+            );
+            if ($fix) {
+                $phpcsFile->fixer->addContent($lastElementPtr, ',');
+            }
+        }
+
+        if (!$shouldHaveTrailingComma && $hasTrailingComma) {
+            $fix = $phpcsFile->addFixableError(
+                'Single-line match statement must not have a trailing comma.',
                 $lastMeaningfulPtr,
                 self::CODE_UNEXPECTED_TRAILING_COMMA
             );

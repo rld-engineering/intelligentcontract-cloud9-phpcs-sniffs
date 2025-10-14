@@ -14,6 +14,16 @@ final class TrailingCommasTest extends TestCase
     public static function sniffProvider()
     {
         return [
+            'match statement, single case, no comma' => [
+                'match-statement-single-case',
+                [
+                    [
+                        9,
+                        32,
+                        'Multi-line match statement must end with a trailing comma.',
+                    ]
+                ],
+            ],
             'multi line, correct' => [
                 'multi-line-correct',
                 [],
